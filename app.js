@@ -1,10 +1,15 @@
-const ste = require('./src/scan_to_epub')
+const dScan = require('./src/download_scan')
+// const pte = require('./src/page_to_epub')
+const fs = require('fs')
 
-// ste.downloadPage('https://wwv.scan-1.com/uploads/manga/one-piece/chapters/chapitre-967/01.png', 'files/01.png')
-// ste.downloadPage('https://wwv.scan-1.com/uploads/manga/one-piece/chapters/chapitre-967/02.png', 'files/02.png')
-// ste.downloadPage('https://wwv.scan-1.com/uploads/manga/one-piece/chapters/chapitre-967/03.png', 'files/03.png')
+if (!fs.existsSync('files/'))
+    fs.mkdirSync('files/')
 
-// ste.downloadMorePage('https://wwv.scan-1.com/uploads/manga/one-piece/chapters/chapitre-967/', 'files/', 20)
+// dScan.downloadPage('https://wwv.scan-1.com/uploads/manga/one-piece/chapters/chapitre-967/01.png', 'files/01.png')
+// dScan.downloadPage('https://wwv.scan-1.com/uploads/manga/one-piece/chapters/chapitre-967/02.png', 'files/02.png')
+// dScan.downloadPage('https://wwv.scan-1.com/uploads/manga/one-piece/chapters/chapitre-967/03.png', 'files/03.png')
 
-ste.downloadChap('https://wwv.scan-1.com/uploads/manga/one-piece/chapters/', 'files/', 967)
-ste.downloadChap('https://wwv.scan-1.com/uploads/manga/one-piece/chapters/', 'files/', 1)
+// dScan.downloadMorePage('https://wwv.scan-1.com/uploads/manga/one-piece/chapters/chapitre-967/', 'files/', 20)
+
+dScan.downloadChap('https://wwv.scan-1.com/uploads/manga/one-piece/chapters/', 'files/', 967)
+dScan.downloadChap('https://wwv.scan-1.com/uploads/manga/one-piece/chapters/', 'files/', 1)

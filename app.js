@@ -1,5 +1,6 @@
-const dScan = require('./src/download_scan')
-// const pte = require('./src/page_to_epub')
+// const dScan = require('./src/download_scan')
+// const cEpub = require('./src/convert_to_epub')
+const ste = require('./src/scan_to_epub')
 const fs = require('fs')
 
 if (!fs.existsSync('files/'))
@@ -11,5 +12,8 @@ if (!fs.existsSync('files/'))
 
 // dScan.downloadMorePage('https://wwv.scan-1.com/uploads/manga/one-piece/chapters/chapitre-967/', 'files/', 20)
 
-dScan.downloadChap('https://wwv.scan-1.com/uploads/manga/one-piece/chapters/', 'files/', 967)
-dScan.downloadChap('https://wwv.scan-1.com/uploads/manga/one-piece/chapters/', 'files/', 1)
+// dScan.downloadChap('https://wwv.scan-1.com/uploads/manga/one-piece/chapters/', 'files/', 967)
+// dScan.downloadChap('https://wwv.scan-1.com/uploads/manga/one-piece/chapters/', 'files/', 1)
+
+// ste.moreChapDownload('https://wwv.scan-1.com/uploads/manga/one-piece/chapters/', 'files/', 967, 5)
+// ste.moreChapEpub('files/', 967, 5)

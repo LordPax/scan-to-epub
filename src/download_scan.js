@@ -30,9 +30,12 @@ const modifUrl = (url, dest) => {
     .if(url.indexOf('.jpg') !== -1, () => 
         modifExt(url, dest, 'jpg', 'jpeg')
     )
+    .if(url.indexOf('.jpeg') !== -1, () => 
+        modifExt(url, dest, 'jpeg', 'webp')
+    )
     .default(() => {return {url, dest}})
 
-    if (url.indexOf('.jpeg') === -1)
+    if (url.indexOf('.webp') === -1)
         console.log('retry form ' + newUrl + ' to ' + newDest)
 
     return {newUrl, newDest}
@@ -51,7 +54,7 @@ const downloadPage = (url, dest) => {
             const {newUrl, newDest} = response.statusCode === 404 ? 
                 modifUrl(url, dest) : {url, dest}
             
-            return response.statusCode === 404 && url.indexOf('.jpeg') === -1 ? 
+            return response.statusCode === 404 && url.indexOf('.webp') === -1 ? 
                 downloadPage(newUrl, newDest) : false
         }
 
@@ -59,7 +62,7 @@ const downloadPage = (url, dest) => {
 
         file.on('finish', () => {
             file.close()
-            console.log('download form ' + url + ' to ' + dest)
+            console.log('download from ' + url + ' to ' + dest)
         })
     })
 
@@ -94,9 +97,4 @@ const downloadChap = (url, dest, chap) => {
     downloadMorePage(newUrl, newDest, 20)
 }
 
-module.exports = {
-    chapToEpub,
-    downloadPage,
-    downloadChap,
-    downloadMorePage
-}
+module.exports = {downloadChap}

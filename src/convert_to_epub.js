@@ -3,29 +3,29 @@ const {match} = require('./include/lib-perso')
 const nodepub = require("nodepub")
 const path = require('path')
 
-const chapToEpub = (dir, chap) => {
+// utilise le contenue du dossier files et le convertie en epub
+// (dir:string, outDir:string, chap:number) => void
+const chapToEpub = (dir, outDir, chap) => {
     const name = 'scan-' + chap
     const pageDir = dir + 'chap-' + chap + '/'
     const metadata = createMetaData(pageDir, name)
-    const cover = fs.readdirSync(pageDir)[0]
+    const files = fs.readdirSync(pageDir)
+    const epub = nodepub.document(metadata, pageDir + files[0])
 
-    const epub = nodepub.document(metadata, pageDir + cover)
-
-    epub.addSection(name, createContent(pageDir));
+    files.forEach(file => {
+        const nb = file.split('.')[0]
+        epub.addSection('page ' + nb, '<img src = "../images/' + file + '">')
+    })
 
     epub.writeEPUB(
         e => console.log('Error:', e),
-        pageDir, name,
+        outDir, name,
         () => console.log('epub ' + name + '.epub generated succesfully')
     )
 }
 
-const createContent = pageDir => {
-    return fs.readdirSync(pageDir).map(file =>{
-        return '<img src = "../images/' + file + '">'
-    }).join('<br/>')
-}
-
+// créé les métadata utile pour l'epub
+// (pageDir:string, name:string) => object
 const createMetaData = (pageDir, name) => {
     const images = fs.readdirSync(pageDir).map(file => pageDir + file)
 

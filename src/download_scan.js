@@ -2,7 +2,7 @@ const fs = require('fs')
 const http = require('http')
 const https = require('https')
 const {match} = require('./include/lib-perso')
-const exec = require('child_process').execSync
+const until = require('./include/until')
 
 // modifie l'extention du fichier dans l'url et la destination pour :
 // oldExt change pour newExt
@@ -43,31 +43,27 @@ const modifUrl = (url, dest) => {
 
 // fonction qui l'télécharge une page
 // (url:string, dest:string) => void
-const downloadPage = (url, dest) => {
+const downloadPage = async (url, dest) => {
     const file = fs.createWriteStream(dest)
     const httpMethod = url.indexOf('https://') !== -1 ? https : http
+    const res = await until.requestGet(url, httpMethod)
 
-    const request = httpMethod.get(url, response => {
-        if (response.statusCode !== 200) {
-            console.log('not found ' + url)
-            fs.unlinkSync(dest)
-            const {newUrl, newDest} = response.statusCode === 404 ? 
-                modifUrl(url, dest) : {url, dest}
-            
-            return response.statusCode === 404 && url.indexOf('.webp') === -1 ? 
-                downloadPage(newUrl, newDest) : false
-        }
+    if (res.statusCode !== 200) {
+        console.log('not found ' + url)
+        fs.unlinkSync(dest)
+        const {newUrl, newDest} = res.statusCode === 404 ? 
+            modifUrl(url, dest) : {url, dest}
+        
+        return res.statusCode === 404 && url.indexOf('.webp') === -1 ? 
+            downloadPage(newUrl, newDest) : false
+    }
 
-        response.pipe(file)
+    res.pipe(file)
 
-        file.on('finish', () => {
-            file.close()
-            console.log('download from ' + url + ' to ' + dest)
-        })
+    file.on('finish', () => {
+        file.close()
+        console.log('download from ' + url + ' to ' + dest)
     })
-
-    request.on('error', err => fs.unlinkSync(dest))
-    file.on('error', err => fs.unlinkSync(dest))
 }
 
 // fonction récursive qui l'télécharge un nombre de page définie

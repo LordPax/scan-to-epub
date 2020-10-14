@@ -35,6 +35,11 @@ const match = (test = null, acc = null) => {
     }
 }
 
+const in_array = (search, array) => {
+    const find = array.filter(elem => elem === search)
+    return find.length > 0 ? find.length : false
+}
+
 const escapeHtml = text => {
     const map = {
         '<': '&lt;',
@@ -51,5 +56,6 @@ module.exports = {
     rand,
     match,
     str_rand,
-    escapeHtml
+    escapeHtml,
+    in_array
 }

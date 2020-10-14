@@ -20,7 +20,8 @@ const modifExt = (url, dest, oldExt, newExt) => {
 // modifie l'url et la destination en fonction de :
 // .png change pour .jpg
 // .jpg change pour .jpeg
-// .jpeg ne fait rien
+// .jpeg change pour .webp
+// .webp ne fait rien
 // (url:string, dest:string) => {newUrl:string, newDest:string}
 const modifUrl = (url, dest) => {
     const {newUrl, newDest} = match()
@@ -45,8 +46,7 @@ const modifUrl = (url, dest) => {
 // (url:string, dest:string) => void
 const downloadPage = async (url, dest) => {
     const file = fs.createWriteStream(dest)
-    const httpMethod = url.indexOf('https://') !== -1 ? https : http
-    const res = await until.requestGet(url, httpMethod)
+    const res = await until.requestGet(url)
 
     if (res.statusCode !== 200) {
         console.log('not found ' + url)
@@ -93,4 +93,9 @@ const downloadChap = (url, dest, chap) => {
     downloadMorePage(newUrl, newDest, 20)
 }
 
-module.exports = {downloadChap}
+module.exports = {
+    downloadChap,
+    modifExt,
+    modifUrl,
+    downloadPage
+}

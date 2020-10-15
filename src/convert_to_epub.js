@@ -2,6 +2,7 @@ const fs = require('fs')
 const {match} = require('./include/lib-perso')
 const nodepub = require("nodepub")
 const path = require('path')
+const until = require('./include/until')
 
 // utilise le contenue du dossier files et le convertie en epub
 // (dir:string, outDir:string, chap:number) => void
@@ -19,10 +20,13 @@ const chapToEpub = (dir, outDir, chap) => {
         return
     }
 
-    const metadata = createMetaData(pageDir, name)
-    const files = fs.readdirSync(pageDir)
-    const epub = nodepub.document(metadata, pageDir + files[0])
+    const files = fs.readdirSync(pageDir).map(file => {
+        return file.indexOf('.webp') !== -1 ?
+            until.convertWebpToPng(pageDir, file) : file
+    })
 
+    const metadata = createMetaData(files, pageDir, name)
+    const epub = nodepub.document(metadata, pageDir + files[0])
     createEpub(files, epub, outDir, name)
 }
 
@@ -42,8 +46,8 @@ const createEpub = (files, epub, outDir, name) => {
 
 // créé les métadata utile pour l'epub
 // (pageDir:string, name:string) => object
-const createMetaData = (pageDir, name) => {
-    const images = fs.readdirSync(pageDir).map(file => pageDir + file)
+const createMetaData = (files, pageDir, name) => {
+    const images = files.map(file => pageDir + file)
 
     return {
         id : 'bite',

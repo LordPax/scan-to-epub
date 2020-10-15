@@ -2,6 +2,9 @@
 ## Description
 projet visant à télécharger des chapitres de scan et générer des fichiers .epub pour les liseuses.
 
+## Pre-requis
+* [libwebp-1.1.0](https://developers.google.com/speed/webp/docs/compiling)
+
 ## Installation
 ```bash
 git clone https://github.com/LordPax/scan-to-epub.git; cd scan-to-epub

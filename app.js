@@ -1,7 +1,9 @@
+#!/usr/bin/node
+
 const ste = require('./src/scan_to_epub')
 const dScan = require('./src/download_scan')
 const fs = require('fs')
-const verbose = require('./src/include/verbose')
+const {verbose} = require('./src/include/until')
 
 // ste.moreChapDownload('https://wwv.scan-1.com/uploads/manga/one-piece/chapters/', 'files/', 967, 10)
 // ste.moreChapEpub('files/', 'epub/', 967, 10)

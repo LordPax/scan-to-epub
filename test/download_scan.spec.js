@@ -1,7 +1,9 @@
 const assert = require('assert');
 const dScan = require('../src/download_scan')
 const fs = require('fs')
-require('../src/include/verbose')(false)
+const until = require('../src/include/until')
+
+until.verbose(false)
 
 describe('download_scan', () => {
     describe('#modifExt()', () => {

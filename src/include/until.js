@@ -30,6 +30,13 @@ const convertWebpToPng = (pageDir, webpFile) => {
 	return pngFile
 }
 
+const verbose = (verb) => {
+    if (!verb) {
+        console = console || {}
+        console.log = function(){}
+    }
+}
+
 const found = async url => {
     const res = await requestGet(url)
     return res.statusCode !== 404
@@ -38,5 +45,6 @@ const found = async url => {
 module.exports = {
     requestGet,
     found,
-    convertWebpToPng
+    convertWebpToPng,
+    verbose
 }

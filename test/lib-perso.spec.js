@@ -1,6 +1,7 @@
 const assert = require('assert');
 const lib = require('../src/include/lib-perso')
-require('../src/include/verbose')(false)
+const until = require('../src/include/until')
+until.verbose(false)
 
 describe('lib-perso', () => {
     describe('#match()', () => {

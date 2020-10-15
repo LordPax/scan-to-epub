@@ -1,6 +1,6 @@
 const assert = require('assert');
 const until = require('../src/include/until')
-require('../src/include/verbose')(false)
+until.verbose(false)
 
 describe('until', () => {
     describe('#requestGet()', () => {

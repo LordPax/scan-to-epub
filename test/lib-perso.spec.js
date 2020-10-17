@@ -1,6 +1,7 @@
 const assert = require('assert');
 const lib = require('../src/include/lib-perso')
 const until = require('../src/include/until')
+
 until.verbose(false)
 
 describe('lib-perso', () => {
@@ -15,6 +16,7 @@ describe('lib-perso', () => {
 
             assert.equal(val, 'test 4')
         })
+
         it('should be equal to "test 2"', () => {
             const val = lib.match(3)
             .case(1, () => 'test 1')
@@ -25,6 +27,7 @@ describe('lib-perso', () => {
 
             assert.equal(val, 'test 2')
         })
+
         it('should be equal to "default"', () => {
             const val = lib.match(15)
             .case(1, () => 'test 1')
@@ -42,10 +45,12 @@ describe('lib-perso', () => {
             const val = lib.in_array('test6', tab)
             assert.equal(val, false)
         })
+
         it('should return 1', () => {
             const val = lib.in_array('test2', tab)
             assert.equal(val, 1)
         })
+        
         it('should return 2', () => {
             const val = lib.in_array('test4', tab)
             assert.equal(val, 2)

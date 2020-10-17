@@ -21,18 +21,21 @@ describe('download_scan', () => {
             assert.equal(newUrl, 'file1.jpg')
             assert.equal(newDest, 'file2.jpg')
         })
+
         it('should change extention jpg to jpeg', () => {
             const {newUrl, newDest} = dScan.modifUrl('file1.jpg', 'file2.jpg')
 
             assert.equal(newUrl, 'file1.jpeg')
             assert.equal(newDest, 'file2.jpeg')
         })
+
         it('should change extention jpeg to webp', () => {
             const {newUrl, newDest} = dScan.modifUrl('file1.jpeg', 'file2.jpeg')
 
             assert.equal(newUrl, 'file1.webp')
             assert.equal(newDest, 'file2.webp')
         })
+
         it.skip('should do nothing if its webp', () => {
             const {newUrl, newDest} = dScan.modifUrl('file1.webp', 'file2.webp')
 
@@ -55,6 +58,7 @@ describe('download_scan', () => {
             assert.equal(fs.existsSync(dest + name), true)
             assert.equal(fs.existsSync(dest + name2), true)
         })
+
         it('should not download file', async () => {
             await dScan.downloadPage('https://wwv.scan-1.com/uploads/manga/one-piece/chapters/chapitre-967/03.jpg', dest + name)
             await dScan.downloadPage('https://wwv.scan-1.com/uploads/manga/one-piece/chapters/chapitre-967/03.webp', dest + name2)

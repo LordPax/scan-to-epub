@@ -21,16 +21,32 @@ const requestGet = url => new Promise ((resolve, reject) => {
 // })
 
 const convertWebpToPng = (pageDir, webpFile) => {
-	const file = webpFile.split('.').filter(x => x !== 'webp')
-	const pngFile = [...file, 'png'].join('.')
+    if (!fs.existsSync(pageDir + webpFile))
+        return ''
 
-	exec('dwebp ' + pageDir + webpFile + ' -o ' + pageDir + pngFile)
-	fs.unlinkSync(pageDir + webpFile)
+    const file = webpFile.split('.').filter(x => x !== 'webp')
+    const pngFile = [...file, 'png'].join('.')
 
-	return pngFile
+    exec('dwebp ' + pageDir + webpFile + ' -o ' + pageDir + pngFile)
+    fs.unlinkSync(pageDir + webpFile)
+
+    return pngFile
 }
 
-const verbose = (verb) => {
+// const convertWebpToPng = (pageDir, webpFile) => new Promise ((resolve, reject) => {
+//     if (!fs.existsSync(pageDir + webpFile))
+//         return ''
+
+// 	const file = webpFile.split('.').filter(x => x !== 'webp')
+// 	const pngFile = [...file, 'png'].join('.')
+
+// 	exec('dwebp ' + pageDir + webpFile + ' -o ' + pageDir + pngFile)
+// 	fs.unlinkSync(pageDir + webpFile)
+
+// 	resolve(pngFile)
+// })
+
+const verbose = verb => {
     if (!verb) {
         console = console || {}
         console.log = function(){}

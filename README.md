@@ -1,6 +1,6 @@
 # Scan to epub
 ## Description
-projet visant à télécharger des chapitres de scan et générer des fichiers .epub pour les liseuses.
+Projet visant à télécharger des chapitres de scan et générer des fichiers .epub pour les liseuses.
 
 ## Pre-requis
 * [libwebp-1.1.0](https://developers.google.com/speed/webp/docs/compiling)

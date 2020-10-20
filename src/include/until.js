@@ -3,6 +3,8 @@ const http = require('http')
 const https = require('https')
 const {match} = require('./lib-perso')
 const exec = require('child_process').execSync
+const util = require('util')
+// const exec = util.promisify(require('child_process').exec)
 
 const requestGet = url => new Promise ((resolve, reject) => {
     const httpMethod = url.indexOf('https://') !== -1 ? https : http
@@ -33,18 +35,16 @@ const convertWebpToPng = (pageDir, webpFile) => {
     return pngFile
 }
 
-// const convertWebpToPng = (pageDir, webpFile) => new Promise ((resolve, reject) => {
+// const convertWebpToPng = async (pageDir, webpFile, pngFile) => {
 //     if (!fs.existsSync(pageDir + webpFile))
-//         return ''
+//         return
 
-// 	const file = webpFile.split('.').filter(x => x !== 'webp')
-// 	const pngFile = [...file, 'png'].join('.')
+//     // const file = webpFile.split('.').filter(x => x !== 'webp')
+//     // const pngFile = [...file, 'png'].join('.')
 
-// 	exec('dwebp ' + pageDir + webpFile + ' -o ' + pageDir + pngFile)
-// 	fs.unlinkSync(pageDir + webpFile)
-
-// 	resolve(pngFile)
-// })
+//     const {stdout, stderr} = await exec('dwebp ' + pageDir + webpFile + ' -o ' + pageDir + pngFile)
+//     fs.unlinkSync(pageDir + webpFile)
+// }
 
 const verbose = verb => {
     if (!verb) {

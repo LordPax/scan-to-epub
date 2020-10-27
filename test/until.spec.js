@@ -61,4 +61,12 @@ describe('until', () => {
             assert.equal(res2, true)
         })
     })
+
+    describe('#nbPageChap()', () => {
+        it.skip('should be return the number of page', async () => {
+            const res = await until.nbPageChap('https://wwv.scan-1.com/uploads/manga/one-piece/chapters/chapitre-990')
+            
+            assert.equal(res, 16)
+        })
+    })
 })

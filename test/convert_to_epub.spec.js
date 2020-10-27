@@ -15,12 +15,13 @@ describe('convert_to_epub', () => {
         const namePng = '01.png'
 
         beforeEach(async () => {
+            fs.mkdirSync(out)
             fs.mkdirSync(dest)
             await dScan.downloadPage('https://wwv.scan-1.com/uploads/manga/one-piece/chapters/chapitre-968/01.webp', dest + nameWebp)
         })
-        afterEach(() => fs.rmdirSync(dest, {recursive : true}))
+        afterEach(() => fs.rmdirSync(out, {recursive : true}))
 
-        it('should convert to epub (but it\'s webp images)', () => {
+        it.skip('should convert to epub (but it\'s webp images)', () => {
             cScan.chapToEpub(dest, out, chap)
 
             assert.equal(fs.existsSync(out + 'scan-' + chap), true)

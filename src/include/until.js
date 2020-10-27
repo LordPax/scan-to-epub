@@ -53,6 +53,10 @@ const verbose = verb => {
     }
 }
 
+const nbPageChap = (url, chap) => {
+
+}
+
 const found = async url => {
     const res = await requestGet(url)
     return res.statusCode !== 404
@@ -62,5 +66,6 @@ module.exports = {
     requestGet,
     found,
     convertWebpToPng,
-    verbose
+    verbose,
+    nbPageChap
 }

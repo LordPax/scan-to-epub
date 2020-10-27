@@ -81,7 +81,7 @@ const downloadMorePage = (url, dest, nbPage, acc = 1) => {
 // (url:string, dest:string, chap:number) => void
 const downloadChap = (url, dest, chap) => {
     console.log('starting download chapter ' + chap + ' ...')
-    const newUrl = url + 'chapitre-' + chap + '/'
+    const newUrl = url + chap + '/'
     const newDest = dest + 'chap-' + chap + '/'
 
     if (fs.existsSync(newDest)) {

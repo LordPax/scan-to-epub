@@ -3,6 +3,7 @@ const {match} = require('./include/lib-perso')
 const nodepub = require("nodepub")
 const path = require('path')
 const until = require('./include/until')
+require('dotenv').config()
 
 // utilise le contenue du dossier files et le convertie en epub
 // (dir:string, outDir:string, chap:number) => void
@@ -50,12 +51,12 @@ const createMetaData = (files, pageDir, name) => {
     const images = files.map(file => pageDir + file)
 
     return {
-        id : 'bite',
+        id : process.env.ID,
         title : name,
-        author : 'Echiro Oda',
+        author : process.env.AUTHOR,
         images,
-        language : 'fr',
-        genre : 'scan manga'
+        language : process.env.LANG,
+        genre : process.env.GENRE
     }
 }
 

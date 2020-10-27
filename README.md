@@ -2,8 +2,11 @@
 ## Description
 Projet visant à télécharger des chapitres de scan et générer des fichiers .epub pour les liseuses.
 
+## Source
+* Les scan sont téléchargé depuis le site [scan-1.com](https://wwv.scan-1.com/one-piece)
+
 ## Pre-requis
-* [libwebp-1.1.0](https://developers.google.com/speed/webp/docs/compiling)
+* Permet de convertir les fichiers .webp vers d'autre format d'images et inversement [libwebp-1.1.0](https://developers.google.com/speed/webp/docs/compiling)
 
 ## Installation
 ```bash
@@ -20,6 +23,3 @@ usage : app.js <option>
 -d <chap> <nbChap> ..... télécharge du chapitre demander jusqu'au nombre indiquer
 -c <chap> <nbChap> ..... convertie en epub du chapitre demander jusqu'au nombre indiquer
 ```
-
-## A savoir
-Le téléchargement est trop lent par rapport à la vitesse de conversion vers epub. Donc jusqu'à correction de ce problème, il faut d'abord attendre la fin du téléchargement pour lancer la conversion.

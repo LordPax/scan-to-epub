@@ -10,16 +10,18 @@ Projet visant à télécharger des chapitres de scan et générer des fichiers .
 
 ## Installation
 ```bash
-git clone https://github.com/LordPax/scan-to-epub.git; cd scan-to-epub
+git clone https://github.com/LordPax/scan-to-epub.git && cd scan-to-epub
 npm install
 ```
 
 ## Usage
 ```
-usage : app.js <option>
+usage : scan2epub.js <option>
 
--h --help .............. affiche ceci
---no-verbose ........... mode silencieux
--d <chap> <nbChap> ..... télécharge du chapitre demander jusqu'au nombre indiquer
--c <chap> <nbChap> ..... convertie en epub du chapitre demander jusqu'au nombre indiquer
+-h --help ................ affiche ceci
+--no-verbose ............. mode silencieux
+-d <chap> <nbChap> ....... télécharge du chapitre demander jusqu'au nombre indiquer
+-c <chap> <nbChap> ....... convertie en epub du chapitre demander jusqu'au nombre indiquer
+-i <chap> <interval> ..... convertie le chapitre suivant a l'intervale demander en seconde (soon)
+--exist <chap> ........... détermine si le chapitre existe
 ```

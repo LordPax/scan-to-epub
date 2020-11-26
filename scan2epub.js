@@ -2,7 +2,7 @@
 
 const ste = require('./src/scan_to_epub')
 const fs = require('fs')
-const {verbose} = require('./src/include/until')
+const {verbose, found} = require('./src/include/until')
 require('dotenv').config()
 
 if (process.argv.length < 3) {
@@ -13,13 +13,14 @@ if (process.argv.length < 3) {
 const {argv} = process
 
 const help = `
-usage : app.js <option>
+usage : scan2epub.js <option>
 
--h --help ................ affiche ceci
---no-verbose ............. mode silencieux
--d <chap> <nbChap> ....... télécharge du chapitre demander jusqu'au nombre indiquer
--c <chap> <nbChap> ....... convertie en epub du chapitre demander jusqu'au nombre indiquer
--i <chap> <interval> ..... convertie le chapitre suivant a l'intervale demander en seconde 
+-h --help ............... affiche ceci
+-s --no-verbose ......... mode silencieux
+-d <chap> <nbChap> ...... télécharge du chapitre demander jusqu'au nombre indiquer
+-c <chap> <nbChap> ...... convertie en epub du chapitre demander jusqu'au nombre indiquer
+-i <chap> <interval> .... convertie le chapitre suivant a l'intervale demander en seconde (soon)
+--exist <chap> .......... détermine si le chapitre existe
 `
 
 if (argv.indexOf('-h') !== -1 || argv.indexOf('--help') !== -1) {
@@ -27,7 +28,18 @@ if (argv.indexOf('-h') !== -1 || argv.indexOf('--help') !== -1) {
     return
 }
 
-if (argv.indexOf('--no-verbose') !== -1) verbose(false)
+if (argv.indexOf('--exist') !== -1) {
+    (async () => {
+        const i = argv.indexOf('--exist')
+        const chap = parseInt(argv[i + 1])
+        if (await found(process.env.URL + chap))
+            console.log('chapter ' + chap + ' exsit')
+        else
+            console.log('chapter ' + chap + ' doesn\'t exsit')
+    })()
+}
+
+if (argv.indexOf('--no-verbose') !== -1 || argv.indexOf('-s') !== -1) verbose(false)
 
 if (argv.indexOf('-d') !== -1) {
     const i = argv.indexOf('-d')

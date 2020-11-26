@@ -14,14 +14,6 @@ const requestGet = url => new Promise ((resolve, reject) => {
     req.on('error', err => reject(err))
 })
 
-// const requestPost = url => new Promise ((resolve, reject) => {
-//     const httpMethod = url.indexOf('https://') !== -1 ? https : http
-//     const req = httpMethod.request(url)
-
-//     req.on('response', res => resolve(res))
-//     req.on('error', err => reject(err))
-// })
-
 const convertWebpToPng = (pageDir, webpFile) => {
     if (!fs.existsSync(pageDir + webpFile))
         return ''
@@ -34,17 +26,6 @@ const convertWebpToPng = (pageDir, webpFile) => {
 
     return pngFile
 }
-
-// const convertWebpToPng = async (pageDir, webpFile, pngFile) => {
-//     if (!fs.existsSync(pageDir + webpFile))
-//         return
-
-//     // const file = webpFile.split('.').filter(x => x !== 'webp')
-//     // const pngFile = [...file, 'png'].join('.')
-
-//     const {stdout, stderr} = await exec('dwebp ' + pageDir + webpFile + ' -o ' + pageDir + pngFile)
-//     fs.unlinkSync(pageDir + webpFile)
-// }
 
 const verbose = verb => {
     if (!verb) {

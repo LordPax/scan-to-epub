@@ -69,7 +69,7 @@ const downloadPage = async (url, dest) => {
 // fonction récursive qui l'télécharge un nombre de page définie
 // (url:string, dest:string, nbPage:number, acc?:number) => true
 const downloadMorePage = (url, dest, nbPage, acc = 1) => {
-    const nb = acc < 10 ? `0${acc}` : `${acc}`
+    const nb = acc < 10 ? `00${acc}` : `0${acc}`
     const newUrl = url + nb + '.png'
     const newDest = dest + nb + '.png'
 

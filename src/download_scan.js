@@ -34,7 +34,7 @@ const modifUrl = (url, dest) => {
     .if(url.indexOf('.jpeg') !== -1, () => 
         modifExt(url, dest, 'jpeg', 'webp')
     )
-    .default(() => {return {url, dest}})
+    .default(() => ({url, dest}))
 
     if (url.indexOf('.webp') === -1)
         console.log('retry form ' + newUrl + ' to ' + newDest)

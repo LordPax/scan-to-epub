@@ -26,14 +26,12 @@ const str_rand = (taille, char = '') => {
     return taille > 0 ? str_rand(taille - 1, char + tmp) : char
 }
 
-const match = (test = null, acc = null) => {
-    return {
-        case: (val, act) => match(test, val === test ? act() : acc),
-        if: (cond, act) => match(test, cond ? act() : acc),
-        plage: (val1, val2, act) => match(test, (test >= val1 && test <= val2) ? act() : acc),
-        default: act => acc === null ? act() : acc
-    }
-}
+const match = (test = null, acc = null) => ({
+    case: (val, act) => match(test, val === test ? act() : acc),
+    if: (cond, act) => match(test, cond ? act() : acc),
+    plage: (val1, val2, act) => match(test, (test >= val1 && test <= val2) ? act() : acc),
+    default: act => acc === null ? act() : acc
+})
 
 const in_array = (search, array) => {
     const find = array.filter(elem => elem === search)

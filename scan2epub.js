@@ -2,7 +2,7 @@
 
 const ste = require('./src/scan_to_epub')
 const fs = require('fs')
-const {verbose, found} = require('./src/include/until')
+const {verbose, found} = require('./src/include/utils')
 require('dotenv').config()
 
 if (process.argv.length < 3) {

@@ -2,11 +2,17 @@ const fs = require('fs')
 const {match} = require('./include/lib-perso')
 const nodepub = require("nodepub")
 const path = require('path')
-const until = require('./include/until')
+const utils = require('./include/utils')
 require('dotenv').config()
 
-// utilise le contenue du dossier files et le convertie en epub
-// (dir:string, outDir:string, chap:number) => void
+/**
+ * utilise le contenue du dossier files et le convertie en epub
+ * 
+ * @param {string} dir 
+ * @param {string} outDir 
+ * @param {number} chap 
+ * @returns {void}
+ */
 const chapToEpub = (dir, outDir, chap) => {
     const name = 'scan-' + chap
     const pageDir = dir + 'chap-' + chap + '/'
@@ -22,8 +28,8 @@ const chapToEpub = (dir, outDir, chap) => {
     }
 
     const files = fs.readdirSync(pageDir).map(file => {
-        return file.indexOf('.webp') !== -1 ?
-            until.convertWebpToPng(pageDir, file) : file
+        return file.indexOf('.webp') !== -1 
+            ? utils.convertWebpToPng(pageDir, file) : file
     })
 
     const metadata = createMetaData(files, pageDir, name)
@@ -31,6 +37,14 @@ const chapToEpub = (dir, outDir, chap) => {
     createEpub(files, epub, outDir, name)
 }
 
+/**
+ * 
+ * @param {string} files 
+ * @param {string} epub 
+ * @param {string} outDir 
+ * @param {string} name 
+ * @return {void}
+ */
 const createEpub = (files, epub, outDir, name) => {
     files.filter(file => file.split('.')[0] !== '01')
     .forEach(file => {
@@ -41,23 +55,32 @@ const createEpub = (files, epub, outDir, name) => {
     epub.writeEPUB(
         e => console.log('Error:', e),
         outDir, name,
-        () => console.log('epub ' + name + '.epub generated succesfully')
+        () => console.log('epub ' + name + '.epub generated successfully')
     )
 }
 
-// créé les métadata utile pour l'epub
-// (pageDir:string, name:string) => object
-const createMetaData = (files, pageDir, name) => {
-    const images = files.map(file => pageDir + file)
-
-    return {
-        id : process.env.ID,
-        title : name,
-        author : process.env.AUTHOR,
-        images,
-        language : process.env.LANG,
-        genre : process.env.GENRE
-    }
-}
+/**
+ * créé les métadata utile pour l'epub
+ * 
+ * @param {string} files 
+ * @param {string} pageDir 
+ * @param {string} name 
+ * @returns {{
+ *      id: string,
+ *      title: string,
+ *      author: string,
+ *      images: string[],
+ *      language: string,
+ *      genre: string
+ * }}
+ */
+const createMetaData = (files, pageDir, name) => ({
+    id: process.env.ID,
+    title: name,
+    author: process.env.AUTHOR,
+    images: files.map(file => pageDir + file),
+    language: process.env.LANG,
+    genre: process.env.GENRE
+})
 
 module.exports = {chapToEpub}

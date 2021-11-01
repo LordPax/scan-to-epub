@@ -3,10 +3,15 @@ const http = require('http')
 const https = require('https')
 const {match} = require('./lib-perso')
 const exec = require('child_process').execSync
-const util = require('util')
 // const exec = util.promisify(require('child_process').exec)
 
-const requestGet = url => new Promise ((resolve, reject) => {
+/**
+ * envoie une requête GET
+ * 
+ * @param {string} url 
+ * @returns {Promise<object>}
+ */
+const requestGet = url => new Promise((resolve, reject) => {
     const httpMethod = url.indexOf('https://') !== -1 ? https : http
     const req = httpMethod.get(url)
 
@@ -14,6 +19,13 @@ const requestGet = url => new Promise ((resolve, reject) => {
     req.on('error', err => reject(err))
 })
 
+/**
+ * convertir une image webp en png
+ * 
+ * @param {string} pageDir 
+ * @param {string} webpFile 
+ * @returns {string}
+ */
 const convertWebpToPng = (pageDir, webpFile) => {
     if (!fs.existsSync(pageDir + webpFile))
         return ''
@@ -34,10 +46,17 @@ const verbose = verb => {
     }
 }
 
+// TODO : faire nbPageChap
 const nbPageChap = (url, chap) => {
 
 }
 
+/**
+ * test l'existence d'une url
+ * 
+ * @param {string} url 
+ * @returns {Promise<boolean>}
+ */
 const found = async url => {
     const res = await requestGet(url)
     return res.statusCode !== 404

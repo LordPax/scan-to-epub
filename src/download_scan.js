@@ -1,12 +1,17 @@
 const fs = require('fs')
-const http = require('http')
-const https = require('https')
 const {match} = require('./include/lib-perso')
-const until = require('./include/until')
+const utils = require('./include/utils')
 
-// modifie l'extention du fichier dans l'url et la destination pour :
-// oldExt change pour newExt
-// (url:string, dest:string, oldExt:string, newExt:string) => {newUrl:string, newDest:string}
+/** 
+ * modifie l'extention du fichier dans l'url et la destination pour :
+ * oldExt change pour newExt
+ * 
+ * @param {String} url
+ * @param {String} dest
+ * @param {String} oldExt
+ * @param {String} newExt
+ * @return {{newUrl:string, newDest:string}}
+ */
 const modifExt = (url, dest, oldExt, newExt) => {
     const tmpUrl = url.split('.').filter(x => x !== oldExt)
     const tmpDest = dest.split('.').filter(x => x !== oldExt)
@@ -17,12 +22,17 @@ const modifExt = (url, dest, oldExt, newExt) => {
     return {newUrl, newDest}
 }
 
-// modifie l'url et la destination en fonction de :
-// .png change pour .jpg
-// .jpg change pour .jpeg
-// .jpeg change pour .webp
-// .webp ne fait rien
-// (url:string, dest:string) => {newUrl:string, newDest:string}
+/**
+ * modifie l'url et la destination en fonction de :
+ * .png change pour .jpg, 
+ * .jpg change pour .jpeg, 
+ * .jpeg change pour .webp, 
+ * .webp ne fait rien, 
+ * 
+ * @param {string} url 
+ * @param {string} dest 
+ * @return {{newUrl:string, newDest:string}}
+ */
 const modifUrl = (url, dest) => {
     const {newUrl, newDest} = match()
     .if(url.indexOf('.png') !== -1, () => 
@@ -42,20 +52,25 @@ const modifUrl = (url, dest) => {
     return {newUrl, newDest}
 }
 
-// fonction qui l'télécharge une page
-// (url:string, dest:string) => void
+/**
+ * fonction qui l'télécharge une page
+ * 
+ * @param {string} url 
+ * @param {string} dest 
+ * @return {Promise<void>}
+ */
 const downloadPage = async (url, dest) => {
     const file = fs.createWriteStream(dest)
-    const res = await until.requestGet(url)
+    const res = await utils.requestGet(url)
 
     if (res.statusCode !== 200) {
         console.log('not found ' + url)
         fs.unlinkSync(dest)
-        const {newUrl, newDest} = res.statusCode === 404 ? 
-            modifUrl(url, dest) : {url, dest}
+        const {newUrl, newDest} = res.statusCode === 404 
+            ? modifUrl(url, dest) : {url, dest}
         
-        return res.statusCode === 404 && url.indexOf('.webp') === -1 ? 
-            downloadPage(newUrl, newDest) : false
+        return res.statusCode === 404 && url.indexOf('.webp') === -1 
+            ? downloadPage(newUrl, newDest) : false
     }
 
     res.pipe(file)
@@ -66,20 +81,35 @@ const downloadPage = async (url, dest) => {
     })
 }
 
-// fonction récursive qui l'télécharge un nombre de page définie
-// (url:string, dest:string, nbPage:number, acc?:number) => true
-const downloadMorePage = (url, dest, nbPage, acc = 1) => {
-    const nb = acc < 10 ? `00${acc}` : `0${acc}`
+/**
+ * fonction récursive qui l'télécharge un nombre de page définie
+ * 
+ * @param {string} url 
+ * @param {string} dest 
+ * @param {number} nbPage 
+ * @param {number} acc
+ * @param {Promise<void>[]} promise 
+ * @return {Promise<void>[]} 
+ */
+const downloadMorePage = (url, dest, nbPage, acc = 1, promise = []) => {
+    const nb = acc < 10 ? `0${acc}` : `${acc}`
+    // const nb = acc < 10 ? `00${acc}` : `0${acc}`
     const newUrl = url + nb + '.png'
     const newDest = dest + nb + '.png'
 
-    downloadPage(newUrl, newDest)
-    return acc < nbPage ? downloadMorePage(url, dest, nbPage, acc+1) : true
+    const prom = [...promise, downloadPage(newUrl, newDest)]
+    return acc < nbPage ? downloadMorePage(url, dest, nbPage, acc+1, prom) : prom
 }
 
-// fonction qui télécharge le chapitre demandé
-// (url:string, dest:string, chap:number) => void
-const downloadChap = (url, dest, chap) => {
+/**
+ * fonction qui télécharge le chapitre demandé
+ * 
+ * @param {string} url 
+ * @param {string} dest 
+ * @param {number} chap 
+ * @return {Promise<void>} 
+ */
+const downloadChap = async (url, dest, chap) => {
     console.log('starting download chapter ' + chap + ' ...')
     const newUrl = url + chap + '/'
     const newDest = dest + 'chap-' + chap + '/'
@@ -90,7 +120,7 @@ const downloadChap = (url, dest, chap) => {
     }
         
     fs.mkdirSync(newDest)
-    downloadMorePage(newUrl, newDest, 20)
+    await Promise.all(downloadMorePage(newUrl, newDest, 20))
 }
 
 module.exports = {

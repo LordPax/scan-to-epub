@@ -11,14 +11,14 @@ const fs = require('fs')
  * @param {number} chap 
  * @param {number} nbChap 
  * @param {number} acc 
- * @returns {void}
+ * @returns {Promise<void>}
  */
 const moreChapDownload = async (url, dest, chap, nbChap, acc = 0) => {
     if (!fs.existsSync(dest))
         fs.mkdirSync(dest)
 
     await dScan.downloadChap(url, dest, chap + acc)
-    return acc < nbChap - 1 ? moreChapDownload(url, dest, chap, nbChap, acc + 1) : true
+    return acc < nbChap - 1 ? await moreChapDownload(url, dest, chap, nbChap, acc + 1) : true
 }
 
 /**

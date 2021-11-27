@@ -1,19 +1,19 @@
 const assert = require('assert');
-const until = require('../src/include/until')
+const utils = require('../src/include/utils')
 const dScan = require('../src/download_scan')
 const fs = require('fs')
 
-until.verbose(false)
+utils.verbose(false)
 
-describe('until', () => {
+describe('utils', () => {
     describe('#requestGet()', () => {
         it('should be not found', async () => {
-            const res = await until.requestGet('https://wwv.scan-1.com/uploads/manga/one-piece/chapters/chapitre-967/03.jpg')
+            const res = await utils.requestGet('https://wwv.scan-1.com/uploads/manga/one-piece/chapters/chapitre-967/03.jpg')
             assert.equal(res.statusCode, 404)
         })
 
         it('should be found', async () => {
-            const res = await until.requestGet('https://wwv.scan-1.com/uploads/manga/one-piece/chapters/chapitre-967/03.png')
+            const res = await utils.requestGet('https://wwv.scan-1.com/uploads/manga/one-piece/chapters/chapitre-967/03.png')
             assert.equal(res.statusCode, 200)
         })
     })
@@ -30,14 +30,14 @@ describe('until', () => {
         afterEach(() => fs.rmdirSync(dest, {recursive : true}))
 
         it('should convert webp to png', () => {
-            const pngFile = until.convertWebpToPng(dest, nameWebp)
+            const pngFile = utils.convertWebpToPng(dest, nameWebp)
 
             assert.equal(fs.existsSync(dest + namePng), true)
             assert.equal(pngFile, namePng)
         })
 
         it('should not convert webp to png', () => {
-            const pngFile = until.convertWebpToPng(dest, 'azeaze')
+            const pngFile = utils.convertWebpToPng(dest, 'azeaze')
 
             assert.equal(fs.existsSync(dest + namePng), false)
             assert.equal(pngFile, '')
@@ -46,27 +46,19 @@ describe('until', () => {
 
     describe('#found()', () => {
         it('should be not found', async () => {
-            const res = await until.found('https://wwv.scan-1.com/uploads/manga/one-piece/chapters/chapitre-967/03.jpg')
-            const res2 = await until.found('https://wwv.scan-1.com/uploads/manga/one-piece/chapters/chapitre-967/04.jpg')
+            const res = await utils.found('https://wwv.scan-1.com/uploads/manga/one-piece/chapters/chapitre-967/03.jpg')
+            const res2 = await utils.found('https://wwv.scan-1.com/uploads/manga/one-piece/chapters/chapitre-967/04.jpg')
 
             assert.equal(res, false)
             assert.equal(res2, false)
         })
 
         it('should be found', async () => {
-            const res = await until.found('https://wwv.scan-1.com/uploads/manga/one-piece/chapters/chapitre-967/03.png')
-            const res2 = await until.found('https://wwv.scan-1.com/uploads/manga/one-piece/chapters/chapitre-967/04.png')
+            const res = await utils.found('https://wwv.scan-1.com/uploads/manga/one-piece/chapters/chapitre-967/03.png')
+            const res2 = await utils.found('https://wwv.scan-1.com/uploads/manga/one-piece/chapters/chapitre-967/04.png')
             
             assert.equal(res, true)
             assert.equal(res2, true)
-        })
-    })
-
-    describe('#nbPageChap()', () => {
-        it.skip('should be return the number of page', async () => {
-            const res = await until.nbPageChap('https://wwv.scan-1.com/uploads/manga/one-piece/chapters/chapitre-990')
-            
-            assert.equal(res, 16)
         })
     })
 })

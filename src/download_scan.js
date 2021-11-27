@@ -1,5 +1,5 @@
 const fs = require('fs')
-const {match} = require('./include/lib-perso')
+const {match} = require('lib-perso')
 const utils = require('./include/utils')
 
 /** 
@@ -57,29 +57,21 @@ const modifUrl = (url, dest) => {
  * 
  * @param {string} url 
  * @param {string} dest 
- * @return {Promise<void>}
+ * @return {Promise<boolean>} 
  */
-const downloadPage = async (url, dest) => {
-    const file = fs.createWriteStream(dest)
-    const res = await utils.requestGet(url)
+const downloadPage = (url, dest) => new Promise((resolve, reject) => {
+    utils.requestGet(url).then(res => {
+        const file = fs.createWriteStream(dest)
 
-    if (res.statusCode !== 200) {
-        console.log('not found ' + url)
-        fs.unlinkSync(dest)
-        const {newUrl, newDest} = res.statusCode === 404 
-            ? modifUrl(url, dest) : {url, dest}
-        
-        return res.statusCode === 404 && url.indexOf('.webp') === -1 
-            ? downloadPage(newUrl, newDest) : false
-    }
+        res.pipe(file)
 
-    res.pipe(file)
-
-    file.on('finish', () => {
-        file.close()
-        console.log('download from ' + url + ' to ' + dest)
+        file.on('finish', () => {
+            file.close()
+            console.log('download from ' + url + ' to ' + dest)
+            resolve(true)
+        })
     })
-}
+})
 
 /**
  * fonction récursive qui l'télécharge un nombre de page définie
@@ -110,7 +102,6 @@ const downloadMorePage = (url, dest, nbPage, acc = 1, promise = []) => {
  * @return {Promise<void>} 
  */
 const downloadChap = async (url, dest, chap) => {
-    console.log('starting download chapter ' + chap + ' ...')
     const newUrl = url + chap + '/'
     const newDest = dest + 'chap-' + chap + '/'
 
@@ -118,14 +109,51 @@ const downloadChap = async (url, dest, chap) => {
         console.log(newDest + ' already exist')
         return
     }
-        
+
     fs.mkdirSync(newDest)
-    await Promise.all(downloadMorePage(newUrl, newDest, 20))
+
+    console.log('finding page for chapter ' + chap + ' ...')
+    const urlList = await getListOfPage(newUrl, newDest)
+    
+    console.log('starting download chapter ' + chap + ' ...')
+    const urlProm = urlList.map(item => downloadPage(item.url, item.dest))
+
+    await Promise.all(urlProm)
+}
+
+/**
+ * retourne une liste d'image à télécharge
+ * 
+ * @param {string} url 
+ * @param {string} dest 
+ * @param {number} page 
+ * @param {{url: string, dest: string}[]} list
+ * @return {Promise<{url: string, dest: string}[]>}
+ */
+const getListOfPage = async (url, dest, page = 1, list = []) => {
+    const nb = page < 10 ? `0${page}` : `${page}`
+
+    const result = await Promise.all([
+        utils.found(url + nb + '.png'),
+        utils.found(url + nb + '.jpg'),
+        utils.found(url + nb + '.jpeg'),
+        utils.found(url + nb + '.webp')
+    ])
+    
+    const validUrl = match(result.indexOf(true))
+    .case(0, () => ({ url: url + nb + '.png', dest: dest + nb + '.png' }))
+    .case(1, () => ({ url: url + nb + '.jpg', dest: dest + nb + '.jpg' }))
+    .case(2, () => ({ url: url + nb + '.jpeg', dest: dest + nb + '.jpeg' }))
+    .case(3, () => ({ url: url + nb + '.webp', dest: dest + nb + '.webp' }))
+    .default(() => false)
+
+    return validUrl !== false ? await getListOfPage(url, dest, page + 1, [...list, validUrl]) : list
 }
 
 module.exports = {
     downloadChap,
     modifExt,
     modifUrl,
-    downloadPage
+    downloadPage,
+    getListOfPage
 }

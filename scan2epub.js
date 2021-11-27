@@ -17,8 +17,9 @@ usage : scan2epub.js <option>
 
 -h --help ............... affiche ceci
 -s --no-verbose ......... mode silencieux
--d <chap> <nbChap> ...... télécharge du chapitre demander jusqu'au nombre indiquer
--c <chap> <nbChap> ...... convertie en epub du chapitre demander jusqu'au nombre indiquer
+-dc <chap> <nbChap> ..... télécharge et convertie du chapitre demandé jusqu'au nombre indiquer
+-d <chap> <nbChap> ...... télécharge du chapitre demandé jusqu'au nombre indiquer
+-c <chap> <nbChap> ...... convertie en epub du chapitre demandé jusqu'au nombre indiquer
 -i <chap> <interval> .... convertie le chapitre suivant a l'intervale demander en seconde (soon)
 --exist <chap> .......... détermine si le chapitre existe
 `
@@ -40,6 +41,20 @@ if (argv.indexOf('--exist') !== -1) {
 }
 
 if (argv.indexOf('--no-verbose') !== -1 || argv.indexOf('-s') !== -1) verbose(false)
+
+if (argv.indexOf('-dc') !== -1) {
+    (async () => {
+        const i = argv.indexOf('-dc')
+        const chap = parseInt(argv[i + 1])
+        const nbChap = parseInt(argv[i + 2])
+
+        if (typeof chap === 'number' && typeof nbChap === 'number') {
+            await ste.moreChapDownload(process.env.URL, process.env.DEST, chap, nbChap)
+            await ste.moreChapEpub(process.env.DEST, process.env.EPUB, chap, nbChap)
+        }
+    })()
+    return
+}
 
 if (argv.indexOf('-d') !== -1) {
     const i = argv.indexOf('-d')

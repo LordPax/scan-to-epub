@@ -1,7 +1,7 @@
 const fs = require('fs')
 const http = require('http')
 const https = require('https')
-const {match} = require('./lib-perso')
+const {match} = require('lib-perso')
 const exec = require('child_process').execSync
 // const exec = util.promisify(require('child_process').exec)
 
@@ -46,11 +46,6 @@ const verbose = verb => {
     }
 }
 
-// TODO : faire nbPageChap
-const nbPageChap = (url, chap) => {
-
-}
-
 /**
  * test l'existence d'une url
  * 
@@ -66,6 +61,5 @@ module.exports = {
     requestGet,
     found,
     convertWebpToPng,
-    verbose,
-    nbPageChap
+    verbose
 }

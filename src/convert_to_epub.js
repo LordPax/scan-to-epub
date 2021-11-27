@@ -1,5 +1,5 @@
 const fs = require('fs')
-const {match} = require('./include/lib-perso')
+const {match} = require('lib-perso')
 const nodepub = require("nodepub")
 const path = require('path')
 const utils = require('./include/utils')

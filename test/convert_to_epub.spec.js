@@ -2,9 +2,9 @@ const assert = require('assert');
 const cScan = require('../src/convert_to_epub')
 const dScan = require('../src/download_scan')
 const fs = require('fs')
-const until = require('../src/include/until')
+const utils = require('../src/include/utils')
 
-until.verbose(false)
+utils.verbose(false)
 
 describe('convert_to_epub', () => {
     describe('#chapToEpub()', () => {
@@ -34,7 +34,7 @@ describe('convert_to_epub', () => {
         })
 
         it.skip('should not convert epub', () => {
-            const pngFile = until.convertWebpToPng(dest, 'azeaze')
+            const pngFile = utils.convertWebpToPng(dest, 'azeaze')
 
             assert.equal(fs.existsSync(dest + namePng), false)
             assert.equal(pngFile, '')

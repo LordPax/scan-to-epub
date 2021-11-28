@@ -50,7 +50,7 @@ if (argv.indexOf('-dc') !== -1) {
 
         if (typeof chap === 'number' && typeof nbChap === 'number') {
             await ste.moreChapDownload(process.env.URL, process.env.DEST, chap, nbChap)
-            await ste.moreChapEpub(process.env.DEST, process.env.EPUB, chap, nbChap)
+            ste.moreChapEpub(process.env.DEST, process.env.EPUB, chap, nbChap)
         }
     })()
     return

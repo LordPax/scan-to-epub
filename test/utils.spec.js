@@ -18,7 +18,7 @@ describe('utils', () => {
         })
     })
 
-    /*describe('#convertWebpToPng()', () => {
+    describe('#convertWebpToPng()', () => {
         const dest = 'testFile/'
         const nameWebp = '01.webp'
         const namePng = '01.png'
@@ -27,7 +27,7 @@ describe('utils', () => {
             fs.mkdirSync(dest)
             await dScan.downloadPage('https://wwv.scan-1.com/uploads/manga/one-piece/chapters/chapitre-968/01.webp', dest + nameWebp)
         })
-        afterEach(() => fs.rmdirSync(dest, {recursive : true}))
+        afterEach(() => fs.rmSync(dest, {recursive : true}))
 
         it('should convert webp to png', () => {
             const pngFile = utils.convertWebpToPng(dest, nameWebp)
@@ -42,7 +42,7 @@ describe('utils', () => {
             assert.equal(fs.existsSync(dest + namePng), false)
             assert.equal(pngFile, '')
         })
-    })*/
+    })
 
     describe('#found()', () => {
         it('should be not found', async () => {

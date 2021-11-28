@@ -49,7 +49,7 @@ const createEpub = (files, epub, outDir, name) => {
     files.filter(file => file.split('.')[0] !== '01')
     .forEach(file => {
         const nb = file.split('.')[0]
-        epub.addSection('page ' + nb, '<img src = "../images/' + file + '">')
+        epub.addSection('page ' + nb, '<img width = "95%" src = "../images/' + file + '">')
     })
 
     epub.writeEPUB(

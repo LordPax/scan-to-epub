@@ -17,9 +17,9 @@ usage : scan2epub.js <option>
 
 -h --help ............... affiche ceci
 -s --no-verbose ......... mode silencieux
--dc <chap> <nbChap> ..... télécharge et convertie du chapitre demandé jusqu'au nombre indiquer
--d <chap> <nbChap> ...... télécharge du chapitre demandé jusqu'au nombre indiquer
--c <chap> <nbChap> ...... convertie en epub du chapitre demandé jusqu'au nombre indiquer
+-dc <chap> <chap> ....... télécharge et convertie les chapitres demandé
+-d <chap> <chap> ........ télécharge les chapitres demandé
+-c <chap> <chap> ........ convertie en epub les chapitres demandé
 -i <chap> <interval> .... convertie le chapitre suivant a l'intervale demander en seconde (soon)
 --exist <chap> .......... détermine si le chapitre existe
 `
@@ -46,7 +46,8 @@ if (argv.indexOf('-dc') !== -1) {
     (async () => {
         const i = argv.indexOf('-dc')
         const chap = parseInt(argv[i + 1])
-        const nbChap = parseInt(argv[i + 2])
+        const chap2 = argv[i + 2] ? parseInt(argv[i + 2]) : 0
+        const nbChap = (chap2 - chap) + 1
 
         if (typeof chap === 'number' && typeof nbChap === 'number') {
             await ste.moreChapDownload(process.env.URL, process.env.DEST, chap, nbChap)
@@ -59,7 +60,8 @@ if (argv.indexOf('-dc') !== -1) {
 if (argv.indexOf('-d') !== -1) {
     const i = argv.indexOf('-d')
     const chap = parseInt(argv[i + 1])
-    const nbChap = parseInt(argv[i + 2])
+    const chap2 = argv[i + 2] ? parseInt(argv[i + 2]) : 0
+    const nbChap = (chap2 - chap) + 1
 
     if (typeof chap === 'number' && typeof nbChap === 'number')
         ste.moreChapDownload(process.env.URL, process.env.DEST, chap, nbChap)
@@ -69,7 +71,8 @@ if (argv.indexOf('-d') !== -1) {
 if (argv.indexOf('-c') !== -1) {
     const i = argv.indexOf('-c')
     const chap = parseInt(argv[i + 1])
-    const nbChap = parseInt(argv[i + 2])
+    const chap2 = argv[i + 2] ? parseInt(argv[i + 2]) : 0
+    const nbChap = (chap2 - chap) + 1
 
     if (typeof chap === 'number' && typeof nbChap === 'number')
         ste.moreChapEpub(process.env.DEST, process.env.EPUB, chap, nbChap)

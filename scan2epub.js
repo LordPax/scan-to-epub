@@ -44,6 +44,7 @@ if (argv.indexOf('--no-verbose') !== -1 || argv.indexOf('-s') !== -1) verbose(fa
 
 if (argv.indexOf('-dc') !== -1) {
     (async () => {
+        // TODO : améliorer la vérification des input
         const i = argv.indexOf('-dc')
         const chap = parseInt(argv[i + 1])
         const chap2 = argv[i + 2] ? parseInt(argv[i + 2]) : 0

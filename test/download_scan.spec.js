@@ -2,6 +2,7 @@ const assert = require('assert');
 const dScan = require('../src/download_scan')
 const fs = require('fs')
 const utils = require('../src/include/utils')
+require('dotenv').config()
 
 utils.verbose(false)
 
@@ -15,23 +16,23 @@ describe('download_scan', () => {
         afterEach(() => fs.rmSync(dest, {recursive : true}))
 
         it('should download file', async () => {
-            await dScan.downloadPage('https://wwv.scan-1.com/uploads/manga/one-piece/chapters/chapitre-967/03.png', dest + name)
-            await dScan.downloadPage('https://wwv.scan-1.com/uploads/manga/one-piece/chapters/chapitre-967/04.png', dest + name2)
+            await dScan.downloadPage(process.env.URL + '967/03.png', dest + name)
+            await dScan.downloadPage(process.env.URL + '967/04.png', dest + name2)
             
             assert.equal(fs.existsSync(dest + name), true)
             assert.equal(fs.existsSync(dest + name2), true)
         })
 
         it('should not download file', async () => {
-            await dScan.downloadPage('https://wwv.scan-1.com/uploads/manga/one-piece/chapters/chapitre-967/03.jpg', dest + name)
-            await dScan.downloadPage('https://wwv.scan-1.com/uploads/manga/one-piece/chapters/chapitre-967/03.webp', dest + name2)
+            await dScan.downloadPage(process.env.URL + '967/03.jpg', dest + name)
+            await dScan.downloadPage(process.env.URL + '967/03.webp', dest + name2)
             
             assert.equal(fs.existsSync(dest + name), false)
             assert.equal(fs.existsSync(dest + name2), false)
         })
     })
     describe('#getListOfPage', () => {
-        const url = 'https://wwv.scan-1.com/uploads/manga/one-piece/chapters/chapitre-1000/'
+        const url = process.env.URL + '1000/'
         const dest = 'files/chap-1000/'
         const expectedList = [
             { url: url + '01.jpg', dest: dest + '01.jpg' },

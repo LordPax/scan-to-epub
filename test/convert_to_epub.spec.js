@@ -3,6 +3,7 @@ const cScan = require('../src/convert_to_epub')
 const dScan = require('../src/download_scan')
 const fs = require('fs')
 const utils = require('../src/include/utils')
+require('dotenv').config()
 
 utils.verbose(false)
 
@@ -17,7 +18,7 @@ describe('convert_to_epub', () => {
         beforeEach(async () => {
             fs.mkdirSync(out)
             fs.mkdirSync(dest)
-            await dScan.downloadPage('https://wwv.scan-1.com/uploads/manga/one-piece/chapters/chapitre-968/01.webp', dest + nameWebp)
+            await dScan.downloadPage(process.env.URL + '968/01.png', dest + nameWebp)
         })
         afterEach(() => fs.rmSync(out, {recursive : true}))
 

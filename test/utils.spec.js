@@ -62,4 +62,33 @@ describe('utils', () => {
             assert.equal(res2, true)
         })
     })
+
+    describe('#getListOfPage', () => {
+        const url = process.env.URL + '1000/'
+        const dest = 'files/chap-1000/'
+        const expectedList = [
+            { url: url + '01.jpg', dest: dest + '01.jpg' },
+            { url: url + '02.jpg', dest: dest + '02.jpg' },
+            { url: url + '03.jpg', dest: dest + '03.jpg' },
+            { url: url + '04.jpg', dest: dest + '04.jpg' },
+            { url: url + '05.jpg', dest: dest + '05.jpg' },
+            { url: url + '06.jpg', dest: dest + '06.jpg' },
+            { url: url + '07.jpg', dest: dest + '07.jpg' },
+            { url: url + '08.jpg', dest: dest + '08.jpg' },
+            { url: url + '09.jpg', dest: dest + '09.jpg' },
+            { url: url + '10.jpg', dest: dest + '10.jpg' },
+            { url: url + '11.jpg', dest: dest + '11.jpg' },
+            { url: url + '12.jpg', dest: dest + '12.jpg' },
+            { url: url + '13.jpg', dest: dest + '13.jpg' },
+            { url: url + '14.jpg', dest: dest + '14.jpg' },
+            { url: url + '15.jpg', dest: dest + '15.jpg' }
+        ]
+
+        it('should found', async () => {
+            const list = await utils.getListOfPage(url, dest)
+
+            assert.equal(list.length, 15)
+            assert.deepEqual(list, expectedList)
+        }).timeout(25000)
+    })
 })

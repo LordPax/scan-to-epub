@@ -48,7 +48,7 @@ const downloadChap = async (url, dest, chap) => {
     fs.mkdirSync(newDest)
 
     console.log('finding page for chapter ' + chap + ' ...')
-    const urlList = await getListOfPage(newUrl, newDest)
+    const urlList = await utils.getListOfPage(newUrl, newDest)
     
     console.log('starting download chapter ' + chap + ' ...')
     const urlProm = urlList.map(item => downloadPage(item.url, item.dest))
@@ -56,37 +56,8 @@ const downloadChap = async (url, dest, chap) => {
     await Promise.all(urlProm)
 }
 
-/**
- * retourne une liste d'image à télécharge
- * 
- * @param {string} url 
- * @param {string} dest 
- * @param {number} page 
- * @param {{url: string, dest: string}[]} list
- * @return {Promise<{url: string, dest: string}[]>}
- */
-const getListOfPage = async (url, dest, page = 1, list = []) => {
-    const nb = page < 10 ? `0${page}` : `${page}`
-
-    const result = await Promise.all([
-        utils.found(url + nb + '.png'),
-        utils.found(url + nb + '.jpg'),
-        utils.found(url + nb + '.jpeg'),
-        utils.found(url + nb + '.webp')
-    ])
-    
-    const validUrl = match(result.indexOf(true))
-    .case(0, () => ({ url: url + nb + '.png', dest: dest + nb + '.png' }))
-    .case(1, () => ({ url: url + nb + '.jpg', dest: dest + nb + '.jpg' }))
-    .case(2, () => ({ url: url + nb + '.jpeg', dest: dest + nb + '.jpeg' }))
-    .case(3, () => ({ url: url + nb + '.webp', dest: dest + nb + '.webp' }))
-    .default(() => false)
-
-    return validUrl !== false ? await getListOfPage(url, dest, page + 1, [...list, validUrl]) : list
-}
 
 module.exports = {
     downloadChap,
     downloadPage,
-    getListOfPage
 }

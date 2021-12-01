@@ -42,7 +42,8 @@ const moreChapEpub = (dir, outDir, chap, nbChap, acc = 0) => {
 const interChap = async (url, chap, interval) => {
     // console.log('chap :', chap)
     if (await utils.found(url + chap)) {
-        dScan.downloadChap(url, process.env.DEST, chap)
+        await dScan.downloadChap(url, process.env.DEST, chap)
+        cEpub.chapToEpub(process.env.DEST, process.env.EPUB, chap)
         
         setTimeout(interChap, interval, url, chap + 1, interval)
     }

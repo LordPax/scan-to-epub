@@ -47,6 +47,35 @@ const verbose = verb => {
 }
 
 /**
+ * retourne une liste d'image à télécharge
+ * 
+ * @param {string} url 
+ * @param {string} dest 
+ * @param {number} page 
+ * @param {{url: string, dest: string}[]} list
+ * @return {Promise<{url: string, dest: string}[]>}
+ */
+const getListOfPage = async (url, dest, page = 1, list = []) => {
+    const nb = page < 10 ? `0${page}` : `${page}`
+
+    const result = await Promise.all([
+        found(url + nb + '.png'),
+        found(url + nb + '.jpg'),
+        found(url + nb + '.jpeg'),
+        found(url + nb + '.webp')
+    ])
+    
+    const validUrl = match(result.indexOf(true))
+    .case(0, () => ({ url: url + nb + '.png', dest: dest + nb + '.png' }))
+    .case(1, () => ({ url: url + nb + '.jpg', dest: dest + nb + '.jpg' }))
+    .case(2, () => ({ url: url + nb + '.jpeg', dest: dest + nb + '.jpeg' }))
+    .case(3, () => ({ url: url + nb + '.webp', dest: dest + nb + '.webp' }))
+    .default(() => false)
+
+    return validUrl !== false ? await getListOfPage(url, dest, page + 1, [...list, validUrl]) : list
+}
+
+/**
  * test l'existence d'une url
  * 
  * @param {string} url 
@@ -57,9 +86,15 @@ const found = async url => {
     return res.statusCode !== 404
 }
 
+// const foundChap = async (url, chap) => {
+//     const firstPage = getListOfPage(url, '')
+
+// }
+
 module.exports = {
     requestGet,
     found,
     convertWebpToPng,
-    verbose
+    verbose,
+    getListOfPage
 }

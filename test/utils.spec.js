@@ -61,7 +61,19 @@ describe('utils', () => {
             assert.equal(res, true)
             assert.equal(res2, true)
         })
-    })
+    }).timeout(10000)
+
+    describe('#foundChap()', () => {
+        it('should be not found', async () => {
+            const res = await utils.foundChap(process.env.URL, 2000)
+            assert.equal(res, false)
+        })
+
+        it('should be found', async () => {
+            const res = await utils.foundChap(process.env.URL, 1033)
+            assert.equal(res, true)
+        })
+    }).timeout(10000)
 
     describe('#getListOfPage', () => {
         const url = process.env.URL + '1000/'

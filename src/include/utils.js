@@ -86,15 +86,29 @@ const found = async url => {
     return res.statusCode !== 404
 }
 
-// const foundChap = async (url, chap) => {
-//     const firstPage = getListOfPage(url, '')
+/**
+ * test l'existence d'un chapitre
+ * 
+ * @param {string} url 
+ * @param {number} chap 
+ * @returns {Promise<boolean>}
+ */
+const foundChap = async (url, chap) => {
+    const result = await Promise.all([
+        found(url + chap + '/' + '01.png'),
+        found(url + chap + '/' + '01.jpg'),
+        found(url + chap + '/' + '01.jpeg'),
+        found(url + chap + '/' + '01.webp')
+    ])
 
-// }
+    return result.indexOf(true) !== -1
+}
 
 module.exports = {
     requestGet,
     found,
     convertWebpToPng,
     verbose,
-    getListOfPage
+    getListOfPage,
+    foundChap
 }

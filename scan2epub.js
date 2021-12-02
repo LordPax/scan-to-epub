@@ -2,7 +2,7 @@
 
 const ste = require('./src/scan_to_epub')
 const fs = require('fs')
-const {verbose, found} = require('./src/include/utils')
+const {verbose, foundChap} = require('./src/include/utils')
 require('dotenv').config()
 
 if (process.argv.length < 3) {
@@ -33,7 +33,7 @@ if (argv.indexOf('--exist') !== -1) {
     (async () => {
         const i = argv.indexOf('--exist')
         const chap = parseInt(argv[i + 1])
-        if (await found(process.env.URL + chap))
+        if (await foundChap(process.env.URL, chap))
             console.log('chapter ' + chap + ' exsit')
         else
             console.log('chapter ' + chap + ' doesn\'t exsit')

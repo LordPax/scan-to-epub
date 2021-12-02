@@ -34,9 +34,9 @@ if (argv.indexOf('--exist') !== -1) {
         const i = argv.indexOf('--exist')
         const chap = parseInt(argv[i + 1])
         if (await foundChap(process.env.URL, chap))
-            console.log('chapter ' + chap + ' exsit')
+            console.log('chapter ' + chap + ' exist')
         else
-            console.log('chapter ' + chap + ' doesn\'t exsit')
+            console.log('chapter ' + chap + ' doesn\'t exist')
     })()
 }
 

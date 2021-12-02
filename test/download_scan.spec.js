@@ -21,7 +21,7 @@ describe('download_scan', () => {
             
             assert.equal(fs.existsSync(dest + name), true)
             assert.equal(fs.existsSync(dest + name2), true)
-        })
+        }).timeout(10000)
 
         it('should not download file', async () => {
             await dScan.downloadPage(process.env.URL + '967/03.jpg', dest + name)
@@ -29,6 +29,6 @@ describe('download_scan', () => {
             
             assert.equal(fs.existsSync(dest + name), false)
             assert.equal(fs.existsSync(dest + name2), false)
-        })
+        }).timeout(10000)
     })
 })

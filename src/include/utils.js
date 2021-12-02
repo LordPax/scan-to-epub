@@ -39,12 +39,28 @@ const convertWebpToPng = (pageDir, webpFile) => {
     return pngFile
 }
 
+const printLog = msg => {
+    if (!fs.existsSync(process.env.LOGDIR))
+        fs.mkdirSync(process.env.LOGDIR)
+
+    const date = new Date()
+    const output = `${date} : msg`
+    
+}
+
 const verbose = verb => {
     if (!verb) {
         console = console || {}
-        console.log = function(){}
+        console.log = () => {}
     }
 }
+
+// const print = msg => {
+//     if (process.env.ALLOWLOG) 
+//         printLog
+//     else
+//         console.log(msg)
+// }
 
 /**
  * retourne une liste d'image à télécharge
@@ -103,6 +119,8 @@ const foundChap = async (url, chap) => {
 
     return result.indexOf(true) !== -1
 }
+
+
 
 module.exports = {
     requestGet,

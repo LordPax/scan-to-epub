@@ -46,7 +46,7 @@ const moreChapEpub = (dir, outDir, chap, nbChap, acc = 0) => {
  * @param {number} interval interval en seconde
  */
 const interChap = async (url, chap, interval) => {
-    // console.log('chap :', chap)
+    // utils.print('chap :', chap)
     if (await utils.foundChap(url, chap)) {
         await dScan.downloadChap(url, process.env.DEST, chap)
         cEpub.chapToEpub(process.env.DEST, process.env.EPUB, chap)

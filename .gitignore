@@ -1,4 +1,5 @@
 node_modules/
 files/
 epub/
+log/
 package-lock.json

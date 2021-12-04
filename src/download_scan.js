@@ -13,7 +13,7 @@ const downloadPage = (url, dest) => new Promise((resolve, reject) => {
     const file = fs.createWriteStream(dest)
     utils.requestGet(url).then(res => {
         if (res.statusCode === 404) {
-            console.log('not found ' + url)
+            utils.print('not found ' + url)
             fs.unlinkSync(dest)
             resolve(false)
         }
@@ -22,7 +22,7 @@ const downloadPage = (url, dest) => new Promise((resolve, reject) => {
 
         file.on('finish', () => {
             file.close()
-            console.log('download from ' + url + ' to ' + dest)
+            utils.print('download from ' + url + ' to ' + dest)
             resolve(true)
         })
     })
@@ -41,16 +41,16 @@ const downloadChap = async (url, dest, chap) => {
     const newDest = dest + 'chap-' + chap + '/'
 
     if (fs.existsSync(newDest)) {
-        console.log(newDest + ' already exist')
+        utils.print(newDest + ' already exist')
         return
     }
 
     fs.mkdirSync(newDest)
 
-    console.log('finding page for chapter ' + chap + ' ...')
+    utils.print('finding page for chapter ' + chap + ' ...')
     const urlList = await utils.getListOfPage(newUrl, newDest)
     
-    console.log('starting download chapter ' + chap + ' ...')
+    utils.print('starting download chapter ' + chap + ' ...')
     const urlProm = urlList.map(item => downloadPage(item.url, item.dest))
 
     await Promise.all(urlProm)

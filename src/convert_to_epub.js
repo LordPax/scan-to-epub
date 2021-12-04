@@ -18,12 +18,12 @@ const chapToEpub = (dir, outDir, chap) => {
     const pageDir = dir + 'chap-' + chap + '/'
 
     if (!fs.existsSync(pageDir)) {
-        console.log(pageDir + ' doesn\'t exist')
+        utils.print(pageDir + ' doesn\'t exist')
         return
     }
 
     if (fs.existsSync(outDir + name + '.epub')) {
-        console.log(outDir + name + '.epub already exist')
+        utils.print(outDir + name + '.epub already exist')
         return
     }
 
@@ -53,9 +53,9 @@ const createEpub = (files, epub, outDir, name) => {
     })
 
     epub.writeEPUB(
-        e => console.log('Error:', e),
+        e => utils.print('Error:', e),
         outDir, name,
-        () => console.log('epub ' + name + '.epub generated successfully')
+        () => utils.print('epub ' + name + '.epub generated successfully')
     )
 }
 

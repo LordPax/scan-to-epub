@@ -2,11 +2,11 @@
 
 const ste = require('./src/scan_to_epub')
 const fs = require('fs')
-const {verbose, foundChap} = require('./src/include/utils')
+const {Constant, verbose, foundChap, print} = require('./src/include/utils')
 require('dotenv').config()
 
 if (process.argv.length < 3) {
-    console.log('aucun paramètre indiquer')
+    print('aucun paramètre indiquer')
     return
 }
 
@@ -25,20 +25,23 @@ usage : scan2epub.js <option>
 `
 
 if (argv.indexOf('-h') !== -1 || argv.indexOf('--help') !== -1) {
-    console.log(help)
+    print(help)
     return
 }
+
+if (argv.indexOf('-l') !== -1) Constant.ALLOWLOG = true
 
 if (argv.indexOf('--exist') !== -1) {
     (async () => {
         const i = argv.indexOf('--exist')
         const chap = parseInt(argv[i + 1])
         if (await foundChap(process.env.URL, chap))
-            console.log('chapter ' + chap + ' exist')
+            print('chapter ' + chap + ' exist')
         else
-            console.log('chapter ' + chap + ' doesn\'t exist')
+            print('chapter ' + chap + ' doesn\'t exist')
     })()
 }
+
 
 if (argv.indexOf('--no-verbose') !== -1 || argv.indexOf('-s') !== -1) verbose(false)
 

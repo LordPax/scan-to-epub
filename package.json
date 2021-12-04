@@ -20,6 +20,7 @@
     "dependencies": {
         "dotenv": "^8.2.0",
         "lib-perso": "^2.0.0",
+        "moment": "^2.29.1",
         "nodepub": "^2.2.0"
     },
     "devDependencies": {

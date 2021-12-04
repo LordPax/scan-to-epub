@@ -5,6 +5,10 @@ const {match} = require('lib-perso')
 const exec = require('child_process').execSync
 // const exec = util.promisify(require('child_process').exec)
 
+class Constant {
+    static ALLOWLOG = false
+}
+
 /**
  * envoie une requête GET
  * 
@@ -43,9 +47,11 @@ const printLog = msg => {
     if (!fs.existsSync(process.env.LOGDIR))
         fs.mkdirSync(process.env.LOGDIR)
 
-    const date = new Date()
-    const output = `${date} : msg`
+    const d = new Date()
+    const format = `${d.getUTCFullYear()}-${d.getUTCMonth()}-${d.getUTCDate()} ${d.getUTCHours()}:${d.getUTCMinutes()}:${d.getUTCSeconds()}`
+    const output = `${format} : ${msg}\n`
     
+    fs.writeFileSync(process.env.LOGDIR + process.env.LOGFILE, output, { flag: 'a' })
 }
 
 const verbose = verb => {
@@ -55,12 +61,12 @@ const verbose = verb => {
     }
 }
 
-// const print = msg => {
-//     if (process.env.ALLOWLOG) 
-//         printLog
-//     else
-//         console.log(msg)
-// }
+const print = msg => {
+    if (Constant.ALLOWLOG) 
+        printLog(msg)
+    else
+        console.log(msg)
+}
 
 /**
  * retourne une liste d'image à télécharge
@@ -128,5 +134,7 @@ module.exports = {
     convertWebpToPng,
     verbose,
     getListOfPage,
-    foundChap
+    foundChap,
+    print,
+    Constant
 }

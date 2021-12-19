@@ -16,13 +16,14 @@ npm install
 
 ## Usage
 ```
-usage : scan2epub.js <option>
+Usage : scan2epub.js <option>
 
+Options :
 -h --help ............... affiche ceci
 -s --no-verbose ......... mode silencieux
--dc <chap> <chap> ....... télécharge et convertie les chapitres demandé
--d <chap> <chap> ........ télécharge les chapitres demandé
--c <chap> <chap> ........ convertie en epub les chapitres demandé
+-dc <chap> [chap] ....... télécharge et convertie les chapitres demandé
+-d <chap> [chap] ........ télécharge les chapitres demandé
+-c <chap> [chap] ........ convertie en epub les chapitres demandé
 -i <chap> <interval> .... convertie le chapitre suivant a l'intervale demander en seconde (soon)
---exist <chap> .......... détermine si le chapitre existe
+--exist <chap> .......... détermine si le chapitre existe`
 ```

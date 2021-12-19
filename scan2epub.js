@@ -12,17 +12,16 @@ if (process.argv.length < 3) {
 
 const {argv} = process
 
-const help = `
-usage : scan2epub.js <option>
+const help = `Usage : scan2epub.js <option>
 
--h --help ............... affiche ceci
--s --no-verbose ......... mode silencieux
--dc <chap> <chap> ....... télécharge et convertie les chapitres demandé
--d <chap> <chap> ........ télécharge les chapitres demandé
--c <chap> <chap> ........ convertie en epub les chapitres demandé
--i <chap> <interval> .... convertie le chapitre suivant a l'intervale demander en seconde (soon)
---exist <chap> .......... détermine si le chapitre existe
-`
+Options :
+-h --help ............... Affiche ceci
+-s --no-verbose ......... Mode silencieux
+-dc <chap> [chap] ....... Télécharge et convertie les chapitres demandé
+-d <chap> [chap] ........ Télécharge les chapitres demandé
+-c <chap> [chap] ........ Convertie en epub les chapitres demandé
+-i <chap> <interval> .... Convertie le chapitre suivant a l'intervale demander en seconde (soon)
+--exist <chap> .......... Détermine si le chapitre existe`
 
 if (argv.indexOf('-h') !== -1 || argv.indexOf('--help') !== -1) {
     print(help)

@@ -5,7 +5,8 @@
     "main": "app.js",
     "scripts": {
         "test": "mocha",
-        "start": "node scan2epub.js -h"
+        "start": "node scan2epub.js -h",
+        "tags": "ctags -R --exclude=node_modules --exclude=.git ."
     },
     "repository": {
         "type": "git",

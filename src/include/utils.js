@@ -4,9 +4,10 @@ const https = require('https')
 const {match} = require('lib-perso')
 const exec = require('child_process').execSync
 // const exec = util.promisify(require('child_process').exec)
+require('dotenv').config()
 
 class Constant {
-    static ALLOWLOG = false
+    static ALLOWLOG = process.env.ALLOWLOG
 }
 
 /**

@@ -21,6 +21,7 @@ Options :
 -d <chap> [chap] ........ Télécharge les chapitres demandé
 -c <chap> [chap] ........ Convertie en epub les chapitres demandé
 -i <chap> <interval> .... Convertie le chapitre suivant a l'intervale demander en seconde (soon)
+-l ...................... Active les log
 --exist <chap> .......... Détermine si le chapitre existe`
 
 if (argv.indexOf('-h') !== -1 || argv.indexOf('--help') !== -1) {

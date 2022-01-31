@@ -7,7 +7,7 @@ const exec = require('child_process').execSync
 require('dotenv').config()
 
 class Constant {
-    static ALLOWLOG = process.env.ALLOWLOG
+    static ALLOWLOG = false 
 }
 
 /**

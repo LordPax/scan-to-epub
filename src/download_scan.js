@@ -40,15 +40,19 @@ const downloadChap = async (url, dest, chap) => {
     const newUrl = url + chap + '/'
     const newDest = dest + 'chap-' + chap + '/'
 
+    utils.print('finding page for chapter ' + chap + ' ...')
+    const urlList = await utils.getListOfPage(newUrl, newDest)
+
+    if (urlList.length === 0) {
+        utils.print('chapter ' + chap + ' doesn\'t exist')
+        return
+    }
+
     if (fs.existsSync(newDest)) {
         utils.print(newDest + ' already exist')
         return
     }
-
     fs.mkdirSync(newDest)
-
-    utils.print('finding page for chapter ' + chap + ' ...')
-    const urlList = await utils.getListOfPage(newUrl, newDest)
     
     utils.print('starting download chapter ' + chap + ' ...')
     const urlProm = urlList.map(item => downloadPage(item.url, item.dest))

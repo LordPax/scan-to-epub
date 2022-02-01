@@ -2,7 +2,13 @@
 
 const ste = require('./src/scan_to_epub')
 const fs = require('fs')
-const {Constant, verbose, foundChap, print} = require('./src/include/utils')
+const {
+    Constant, 
+    verbose, 
+    foundChap, 
+    print, 
+    clean
+} = require('./src/include/utils')
 require('dotenv').config()
 
 if (process.argv.length < 3) {
@@ -15,14 +21,17 @@ const {argv} = process
 const help = `Usage : scan2epub.js <option>
 
 Options :
--h --help ............... Affiche ceci
--s --no-verbose ......... Mode silencieux
--dc <chap> [chap] ....... Télécharge et convertie les chapitres demandé
--d <chap> [chap] ........ Télécharge les chapitres demandé
--c <chap> [chap] ........ Convertie en epub les chapitres demandé
--i <chap> <interval> .... Convertie le chapitre suivant a l'intervale demander en seconde (soon)
--l ...................... Active les log
---exist <chap> .......... Détermine si le chapitre existe`
+-h --help .................. Affiche ceci
+-s --no-verbose ............ Mode silencieux
+-dc <chap> [chap] .......... Télécharge et convertie les chapitres demandé
+-d <chap> [chap] ........... Télécharge les chapitres demandé
+-c <chap> [chap] ........... Convertie en epub les chapitres demandé
+-i <chap> <interval> ....... Convertie le chapitre suivant a l'intervale demander en seconde (soon)
+-l ......................... Active les log
+--exist <chap> ............. Détermine si le chapitre existe
+--clean <cahp> [chap] ...... Supprime les chpitres demandé (soon)
+--clean-all ................ Supprime tout le contenue des dossiers files et epub
+`
 
 if (argv.indexOf('-h') !== -1 || argv.indexOf('--help') !== -1) {
     print(help)
@@ -42,8 +51,16 @@ if (argv.indexOf('--exist') !== -1) {
     })()
 }
 
-
 if (argv.indexOf('--no-verbose') !== -1 || argv.indexOf('-s') !== -1) verbose(false)
+
+if (argv.indexOf('--clean-all') !== -1) {
+    print('deleting ' + process.env.DEST + ' and ' + process.env.EPUB + ' ...')
+    if (fs.existsSync(process.env.DEST))
+        fs.rmSync(process.env.DEST, {recursive : true})
+    if (fs.existsSync(process.env.EPUB))
+        fs.rmSync(process.env.EPUB, {recursive : true})
+    return
+}
 
 if (argv.indexOf('-dc') !== -1) {
     (async () => {

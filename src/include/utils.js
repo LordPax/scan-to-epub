@@ -127,7 +127,11 @@ const foundChap = async (url, chap) => {
     return result.indexOf(true) !== -1
 }
 
-
+// TODO : faire la fonction clean
+const clean = (dir, chap, nbChap, acc = 0) => {
+    // fs.rmSync(dir, {recursive : true})
+    return acc < nbChap - 1 ? clean(dir, chap, nbChap, acc + 1) : null
+}
 
 module.exports = {
     requestGet,
@@ -137,5 +141,6 @@ module.exports = {
     getListOfPage,
     foundChap,
     print,
-    Constant
+    Constant,
+    clean
 }

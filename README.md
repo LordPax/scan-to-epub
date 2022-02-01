@@ -27,4 +27,6 @@ Options :
 -c <chap> [chap] ........ convertie en epub les chapitres demandé
 -i <chap> <interval> .... convertie le chapitre suivant a l'intervale demander en seconde (soon)
 --exist <chap> .......... détermine si le chapitre existe`
+--clean <cahp> [chap] ...... Supprime les chpitres demandé (soon)
+--clean-all ................ Supprime tout le contenue des dossiers files et epub
 ```

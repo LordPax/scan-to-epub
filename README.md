@@ -3,8 +3,8 @@
 Projet visant à télécharger des chapitres de scan et générer des fichiers .epub pour les liseuses.
 
 ## Source
-* Les scan sont téléchargé depuis le site [lelscan-vf](https://lelscan-vf.cc/)
-<!-- * Les scan sont téléchargé depuis le site [onepiece-scan](https://onepiece-scan.com/) -->
+<!-- * Les scan sont téléchargé depuis le site [lelscan-vf](https://lelscan-vf.cc/) -->
+* Les scan sont téléchargé depuis le site [onepiece-scan](https://onepiece-scan.com/)
 
 ## Pre-requis
 * Permet de convertir les fichiers .webp vers d'autre format d'images et inversement [libwebp-1.1.0](https://developers.google.com/speed/webp/docs/compiling)

@@ -8,7 +8,7 @@ Projet visant à télécharger des chapitres de scan et générer des fichiers .
 
 ## Format de l'url source
 ```
-* http://www.example.com/{nbchap}/{nbpage}.{png|jpg|jpeg|webp}
+http://www.example.com/{nbchap}/{nbpage}.{png|jpg|jpeg|webp}
 ```
 
 ## Pre-requis

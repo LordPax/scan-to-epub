@@ -128,6 +128,15 @@ const foundChap = async (url, chap) => {
 }
 
 // TODO : faire la fonction clean
+/**
+ * supprime les chapitre demander
+ *
+ * @param {string} dir - chemin des chapitres
+ * @param {integer} chap - le chapitre ou commancer
+ * @param {integer} nbChap - le nombre de chapitre a partir du paramètre chap
+ * @param {integer} [acc] - compteur qui s'incremente a chaque tours
+ * @returns {void}
+ */
 const clean = (dir, chap, nbChap, acc = 0) => {
     // fs.rmSync(dir, {recursive : true})
     return acc < nbChap - 1 ? clean(dir, chap, nbChap, acc + 1) : null

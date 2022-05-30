@@ -62,12 +62,23 @@ if (argv.indexOf('--clean-all') !== -1) {
     return
 }
 
+if (argv.indexOf('--clean') !== -1) {
+    const i = argv.indexOf('--clean')
+    const chap = parseInt(argv[i + 1])
+    const chap2 = argv[i + 2] ? parseInt(argv[i + 2]) : parseInt(argv[i + 1])
+    const nbChap = (chap2 - chap) + 1
+
+    if (typeof chap === 'number' && typeof nbChap === 'number')
+        console.log('chap : ', chap, ', chap2 : ', chap2, ', nbChap : ', nbChap)
+    return
+}
+
 if (argv.indexOf('-dc') !== -1) {
     (async () => {
         // TODO : améliorer la vérification des input
         const i = argv.indexOf('-dc')
         const chap = parseInt(argv[i + 1])
-        const chap2 = argv[i + 2] ? parseInt(argv[i + 2]) : 0
+        const chap2 = argv[i + 2] ? parseInt(argv[i + 2]) : parseInt(argv[i + 1])
         const nbChap = (chap2 - chap) + 1
 
         if (typeof chap === 'number' && typeof nbChap === 'number') {
@@ -81,7 +92,7 @@ if (argv.indexOf('-dc') !== -1) {
 if (argv.indexOf('-d') !== -1) {
     const i = argv.indexOf('-d')
     const chap = parseInt(argv[i + 1])
-    const chap2 = argv[i + 2] ? parseInt(argv[i + 2]) : 0
+    const chap2 = argv[i + 2] ? parseInt(argv[i + 2]) : parseInt(argv[i + 1])
     const nbChap = (chap2 - chap) + 1
 
     if (typeof chap === 'number' && typeof nbChap === 'number')
@@ -92,7 +103,7 @@ if (argv.indexOf('-d') !== -1) {
 if (argv.indexOf('-c') !== -1) {
     const i = argv.indexOf('-c')
     const chap = parseInt(argv[i + 1])
-    const chap2 = argv[i + 2] ? parseInt(argv[i + 2]) : 0
+    const chap2 = argv[i + 2] ? parseInt(argv[i + 2]) : parseInt(argv[i + 1])
     const nbChap = (chap2 - chap) + 1
 
     if (typeof chap === 'number' && typeof nbChap === 'number')

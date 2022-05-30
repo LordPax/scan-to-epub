@@ -6,6 +6,11 @@ Projet visant à télécharger des chapitres de scan et générer des fichiers .
 <!-- * Les scan sont téléchargé depuis le site [lelscan-vf](https://lelscan-vf.cc/) -->
 * Les scan sont téléchargé depuis le site [onepiece-scan](https://onepiece-scan.com/)
 
+## Format de l'url source
+```
+http://www.example.com/{nbchap}/{nbpage}.{png|jpg|jpeg|webp}
+```
+
 ## Pre-requis
 * Permet de convertir les fichiers .webp vers d'autre format d'images et inversement [libwebp-1.1.0](https://developers.google.com/speed/webp/docs/compiling)
 

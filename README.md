@@ -8,7 +8,21 @@ Projet visant à télécharger des chapitres de scan et générer des fichiers .
 
 ## Format de l'url source
 ```
-http://www.example.com/{nbchap}/{nbpage}.{png|jpg|jpeg|webp}
+http://www.example.com/{chap}/{page}.{png|jpg|jpeg|webp}
+```
+
+## Dotenv
+```
+URL=https://one-piece-manga.fr/comic/
+# URL=https://lelscan-vf.cc/uploads/manga/one-piece/chapters/
+DEST=files/
+EPUB=epub/
+LOGDIR=log/
+LOGFILE=scan.log
+ID=bite
+AUTHOR='Echiro Oda'
+LANG=fr
+GENRE='scan manga'
 ```
 
 ## Pre-requis
@@ -25,13 +39,14 @@ npm install
 Usage : scan2epub.js <option>
 
 Options :
--h --help ............... affiche ceci
--s --no-verbose ......... mode silencieux
--dc <chap> [chap] ....... télécharge et convertie les chapitres demandé
--d <chap> [chap] ........ télécharge les chapitres demandé
--c <chap> [chap] ........ convertie en epub les chapitres demandé
--i <chap> <interval> .... convertie le chapitre suivant a l'intervale demander en seconde (soon)
---exist <chap> .......... détermine si le chapitre existe`
---clean <cahp> [chap] ...... Supprime les chpitres demandé (soon)
+-h --help .................. Affiche ceci
+-s --no-verbose ............ Mode silencieux
+-dc <chap> [chap] .......... Télécharge et convertie les chapitres demandé
+-d <chap> [chap] ........... Télécharge les chapitres demandé
+-c <chap> [chap] ........... Convertie en epub les chapitres demandé
+-i <chap> <interval> ....... Convertie le chapitre suivant a l'intervale demander en seconde (soon)
+-l ......................... Active les log
+--exist <chap> ............. Détermine si le chapitre existe
+--clean <chap> [chap] ...... Supprime les chpitres demandé
 --clean-all ................ Supprime tout le contenue des dossiers files et epub
 ```

@@ -1,13 +1,12 @@
 const fs = require('fs')
 const http = require('http')
 const https = require('https')
-const {match} = require('lib-perso')
+const { match } = require('lib-perso')
 const exec = require('child_process').execSync
-// const exec = util.promisify(require('child_process').exec)
 require('dotenv').config()
 
 class Constant {
-    static ALLOWLOG = false 
+    static ALLOWLOG = false
 }
 
 /**
@@ -127,19 +126,26 @@ const foundChap = async (url, chap) => {
     return result.indexOf(true) !== -1
 }
 
-// TODO : faire la fonction clean
 /**
- * supprime les chapitre demander
+ * supprime les chapitres demandé
  *
- * @param {string} dir - chemin des chapitres
  * @param {integer} chap - le chapitre ou commancer
  * @param {integer} nbChap - le nombre de chapitre a partir du paramètre chap
  * @param {integer} [acc] - compteur qui s'incremente a chaque tours
  * @returns {void}
  */
-const clean = (dir, chap, nbChap, acc = 0) => {
-    // fs.rmSync(dir, {recursive : true})
-    return acc < nbChap - 1 ? clean(dir, chap, nbChap, acc + 1) : null
+const clean = (chap, nbChap, acc = 0) => {
+    curChap = chap + acc
+    file = process.env.DEST + 'chap-' + curChap
+    epub = process.env.EPUB + 'scan-' + curChap + '.epub'
+
+    if (fs.existsSync(file) || fs.existsSync(epub))
+        print('removing chapter ' + curChap + ' ...')
+
+    fs.existsSync(file) && fs.rmSync(file, {recursive : true})
+    fs.existsSync(epub) && fs.rmSync(epub, {recursive : true})
+
+    return acc < nbChap - 1 ? clean(chap, nbChap, acc + 1) : null
 }
 
 module.exports = {

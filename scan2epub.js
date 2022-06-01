@@ -3,10 +3,10 @@
 const ste = require('./src/scan_to_epub')
 const fs = require('fs')
 const {
-    Constant, 
-    verbose, 
-    foundChap, 
-    print, 
+    Constant,
+    verbose,
+    foundChap,
+    print,
     clean
 } = require('./src/include/utils')
 require('dotenv').config()
@@ -29,9 +29,8 @@ Options :
 -i <chap> <interval> ....... Convertie le chapitre suivant a l'intervale demander en seconde (soon)
 -l ......................... Active les log
 --exist <chap> ............. Détermine si le chapitre existe
---clean <cahp> [chap] ...... Supprime les chpitres demandé (soon)
---clean-all ................ Supprime tout le contenue des dossiers files et epub
-`
+--clean <chap> [chap] ...... Supprime les chpitres demandé
+--clean-all ................ Supprime tout le contenue des dossiers files et epub`
 
 if (argv.indexOf('-h') !== -1 || argv.indexOf('--help') !== -1) {
     print(help)
@@ -69,7 +68,8 @@ if (argv.indexOf('--clean') !== -1) {
     const nbChap = (chap2 - chap) + 1
 
     if (typeof chap === 'number' && typeof nbChap === 'number')
-        console.log('chap : ', chap, ', chap2 : ', chap2, ', nbChap : ', nbChap)
+        clean(chap, nbChap)
+
     return
 }
 

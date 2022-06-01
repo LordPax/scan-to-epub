@@ -1,5 +1,4 @@
 const fs = require('fs')
-const {match} = require('lib-perso')
 const utils = require('./include/utils')
 
 /**
@@ -53,7 +52,7 @@ const downloadChap = async (url, dest, chap) => {
         return
     }
     fs.mkdirSync(newDest)
-    
+
     utils.print('starting download chapter ' + chap + ' ...')
     const urlProm = urlList.map(item => downloadPage(item.url, item.dest))
 

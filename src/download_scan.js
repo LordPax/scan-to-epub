@@ -8,7 +8,7 @@ const utils = require('./include/utils')
  * @param {string} dest 
  * @return {Promise<boolean>} 
  */
-const downloadPage = (url, dest) => new Promise((resolve, reject) => {
+const downloadPage = (url, dest) => new Promise(resolve => {
     const file = fs.createWriteStream(dest)
     utils.requestGet(url).then(res => {
         if (res.statusCode === 404) {

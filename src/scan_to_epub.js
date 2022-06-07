@@ -50,7 +50,6 @@ const interChap = async (url, chap, interval) => {
     if (await utils.foundChap(url, chap)) {
         await dScan.downloadChap(url, process.env.DEST, chap)
         cEpub.chapToEpub(process.env.DEST, process.env.EPUB, chap)
-        
         setTimeout(interChap, interval, url, chap + 1, interval)
     }
     else {

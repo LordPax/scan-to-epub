@@ -41,6 +41,7 @@ const downloadChap = async (url, dest, chap) => {
 
     utils.print('finding page for chapter ' + chap + ' ...')
     const urlList = await utils.getListOfPage(newUrl, newDest)
+    utils.print(urlList.length + ' pages found for chapter ' + chap)
 
     if (urlList.length === 0) {
         utils.print('chapter ' + chap + ' doesn\'t exist')

@@ -1,118 +1,119 @@
-const fs = require('fs')
-const http = require('http')
-const https = require('https')
-const { match } = require('lib-perso')
-const exec = require('child_process').execSync
-require('dotenv').config()
+const fs = require('fs');
+const http = require('http');
+const https = require('https');
+const { match } = require('lib-perso');
+const exec = require('child_process').execSync;
+require('dotenv').config();
 
 class Constant {
-    static ALLOWLOG = false
+    static ALLOWLOG = false;
 }
 
 /**
  * envoie une requête GET
- * 
- * @param {string} url 
+ *
+ * @param {string} url
  * @returns {Promise<object>}
  */
-const requestGet = url => new Promise((resolve, reject) => {
-    const httpMethod = url.indexOf('https://') !== -1 ? https : http
-    const req = httpMethod.get(url)
+const requestGet = (url) =>
+    new Promise((resolve, reject) => {
+        const httpMethod = url.indexOf('https://') !== -1 ? https : http;
+        const req = httpMethod.get(url);
 
-    req.on('response', res => resolve(res))
-    req.on('error', err => reject(err))
-})
+        req.on('response', (res) => resolve(res));
+        req.on('error', (err) => reject(err));
+    });
 
 /**
  * convertir une image webp en png
- * 
- * @param {string} pageDir 
- * @param {string} webpFile 
+ *
+ * @param {string} pageDir
+ * @param {string} webpFile
  * @returns {string}
  */
 const convertWebpToPng = (pageDir, webpFile) => {
-    if (!fs.existsSync(pageDir + webpFile))
-        return ''
+    if (!fs.existsSync(pageDir + webpFile)) return '';
 
-    const file = webpFile.split('.').filter(x => x !== 'webp')
-    const pngFile = [...file, 'png'].join('.')
+    const file = webpFile.split('.').filter((x) => x !== 'webp');
+    const pngFile = [...file, 'png'].join('.');
 
-    exec('dwebp ' + pageDir + webpFile + ' -o ' + pageDir + pngFile)
-    fs.unlinkSync(pageDir + webpFile)
+    exec('dwebp ' + pageDir + webpFile + ' -o ' + pageDir + pngFile);
+    fs.unlinkSync(pageDir + webpFile);
 
-    return pngFile
-}
+    return pngFile;
+};
 
-const printLog = msg => {
-    if (!fs.existsSync(process.env.LOGDIR))
-        fs.mkdirSync(process.env.LOGDIR)
+const printLog = (msg) => {
+    if (!fs.existsSync(process.env.LOGDIR)) fs.mkdirSync(process.env.LOGDIR);
 
-    const d = new Date()
-    const format = `${d.getUTCFullYear()}-${d.getUTCMonth()}-${d.getUTCDate()} ${d.getUTCHours()}:${d.getUTCMinutes()}:${d.getUTCSeconds()}`
-    const output = `${format} : ${msg}\n`
-    
-    fs.writeFileSync(process.env.LOGDIR + process.env.LOGFILE, output, { flag: 'a' })
-}
+    const d = new Date();
+    const format = `${d.getUTCFullYear()}-${d.getUTCMonth()}-${d.getUTCDate()} ${d.getUTCHours()}:${d.getUTCMinutes()}:${d.getUTCSeconds()}`;
+    const output = `${format} : ${msg}\n`;
 
-const verbose = verb => {
+    fs.writeFileSync(process.env.LOGDIR + process.env.LOGFILE, output, {
+        flag: 'a',
+    });
+};
+
+const verbose = (verb) => {
     if (!verb) {
-        console = console || {}
-        console.log = () => {}
+        // console = console || {};
+        console.log = () => {};
     }
-}
+};
 
-const print = msg => {
-    if (Constant.ALLOWLOG) 
-        printLog(msg)
-    else
-        console.log(msg)
-}
+const print = (msg) => {
+    if (Constant.ALLOWLOG) printLog(msg);
+    else console.log(msg);
+};
 
 /**
  * retourne une liste d'image à télécharge
- * 
- * @param {string} url 
- * @param {string} dest 
- * @param {number} page 
+ *
+ * @param {string} url
+ * @param {string} dest
+ * @param {number} page
  * @param {{url: string, dest: string}[]} list
  * @return {Promise<{url: string, dest: string}[]>}
  */
 const getListOfPage = async (url, dest, page = 1, list = []) => {
-    const nb = page < 10 ? `0${page}` : `${page}`
+    const nb = page < 10 ? `0${page}` : `${page}`;
 
     const result = await Promise.all([
         found(url + nb + '.png'),
         found(url + nb + '.jpg'),
         found(url + nb + '.jpeg'),
-        found(url + nb + '.webp')
-    ])
-    
-    const validUrl = match(result.indexOf(true))
-    .case(0, () => ({ url: url + nb + '.png', dest: dest + nb + '.png' }))
-    .case(1, () => ({ url: url + nb + '.jpg', dest: dest + nb + '.jpg' }))
-    .case(2, () => ({ url: url + nb + '.jpeg', dest: dest + nb + '.jpeg' }))
-    .case(3, () => ({ url: url + nb + '.webp', dest: dest + nb + '.webp' }))
-    .default(() => false)
+        found(url + nb + '.webp'),
+    ]);
 
-    return validUrl !== false ? await getListOfPage(url, dest, page + 1, [...list, validUrl]) : list
-}
+    const validUrl = match(result.indexOf(true))
+        .case(0, () => ({ url: url + nb + '.png', dest: dest + nb + '.png' }))
+        .case(1, () => ({ url: url + nb + '.jpg', dest: dest + nb + '.jpg' }))
+        .case(2, () => ({ url: url + nb + '.jpeg', dest: dest + nb + '.jpeg' }))
+        .case(3, () => ({ url: url + nb + '.webp', dest: dest + nb + '.webp' }))
+        .default(() => false);
+
+    return validUrl !== false
+        ? await getListOfPage(url, dest, page + 1, [...list, validUrl])
+        : list;
+};
 
 /**
  * test l'existence d'une url
- * 
- * @param {string} url 
+ *
+ * @param {string} url
  * @returns {Promise<boolean>}
  */
-const found = async url => {
-    const res = await requestGet(url)
-    return res.statusCode !== 404
-}
+const found = async (url) => {
+    const res = await requestGet(url);
+    return res.statusCode !== 404;
+};
 
 /**
  * test l'existence d'un chapitre
- * 
- * @param {string} url 
- * @param {number} chap 
+ *
+ * @param {string} url
+ * @param {number} chap
  * @returns {Promise<boolean>}
  */
 const foundChap = async (url, chap) => {
@@ -120,11 +121,11 @@ const foundChap = async (url, chap) => {
         found(url + chap + '/' + '01.png'),
         found(url + chap + '/' + '01.jpg'),
         found(url + chap + '/' + '01.jpeg'),
-        found(url + chap + '/' + '01.webp')
-    ])
+        found(url + chap + '/' + '01.webp'),
+    ]);
 
-    return result.indexOf(true) !== -1
-}
+    return result.indexOf(true) !== -1;
+};
 
 /**
  * supprime les chapitres demandé
@@ -135,18 +136,18 @@ const foundChap = async (url, chap) => {
  * @returns {void}
  */
 const clean = (chap, nbChap, acc = 0) => {
-    curChap = chap + acc
-    file = process.env.DEST + 'chap-' + curChap
-    epub = process.env.EPUB + 'scan-' + curChap + '.epub'
+    const curChap = chap + acc;
+    const file = process.env.DEST + 'chap-' + curChap;
+    const epub = process.env.EPUB + 'scan-' + curChap + '.epub';
 
     if (fs.existsSync(file) || fs.existsSync(epub))
-        print('removing chapter ' + curChap + ' ...')
+        print('removing chapter ' + curChap + ' ...');
 
-    fs.existsSync(file) && fs.rmSync(file, {recursive : true})
-    fs.existsSync(epub) && fs.rmSync(epub, {recursive : true})
+    fs.existsSync(file) && fs.rmSync(file, { recursive: true });
+    fs.existsSync(epub) && fs.rmSync(epub, { recursive: true });
 
-    return acc < nbChap - 1 ? clean(chap, nbChap, acc + 1) : null
-}
+    return acc < nbChap - 1 ? clean(chap, nbChap, acc + 1) : null;
+};
 
 module.exports = {
     requestGet,
@@ -157,5 +158,5 @@ module.exports = {
     foundChap,
     print,
     Constant,
-    clean
-}
+    clean,
+};

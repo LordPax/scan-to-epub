@@ -3,3 +3,4 @@ tags
 files/
 epub/
 log/
+.env

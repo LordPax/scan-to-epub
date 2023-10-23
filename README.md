@@ -3,8 +3,7 @@
 Projet visant à télécharger des chapitres de scan et générer des fichiers .epub pour les liseuses.
 
 ## Source
-<!-- * Les scan sont téléchargé depuis le site [lelscan-vf](https://lelscan-vf.cc/) -->
-* Les scan sont téléchargé depuis le site [onepiece-scan](https://onepiece-scan.com/)
+* Les scan sont téléchargé depuis le site [lelscans](https://lelscans.net/lecture-ligne-one-piece)
 
 ## Format de l'url source
 ```
@@ -13,8 +12,7 @@ http://www.example.com/{chap}/{page}.{png|jpg|jpeg|webp}
 
 ## Dotenv
 ```
-URL=https://one-piece-manga.fr/comic/
-# URL=https://lelscan-vf.cc/uploads/manga/one-piece/chapters/
+URL=https://lelscans.net/mangas/one-piece/
 DEST=files/
 EPUB=epub/
 LOGDIR=log/
